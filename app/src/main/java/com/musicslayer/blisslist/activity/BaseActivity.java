@@ -38,8 +38,6 @@ abstract public class BaseActivity extends AppCompatActivity {
             }
             else {
                 // If we get here, we are uninitialized, but we are not at the entry point of the app. Something went wrong!
-
-                // The Toast database is not initialized, so manually create this toast.
                 Toast.makeText(this, "Bliss List needs to be restarted.", Toast.LENGTH_LONG).show();
 
                 try {

@@ -5,3 +5,8 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 -keepattributes SourceFile,LineNumberTable
+
+# Dialog Construction
+-keepclassmembers class * extends com.musicslayer.blisslist.dialog.BaseDialog {
+    public <init>(...);
+}

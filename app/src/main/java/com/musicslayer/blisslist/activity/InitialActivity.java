@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.musicslayer.blisslist.app.App;
+import com.musicslayer.blisslist.data.persistent.app.ItemList;
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
@@ -15,6 +16,8 @@ public class InitialActivity extends BaseActivity {
     }
 
     public void initialize() {
+        new ItemList().loadAllData();
+
         App.isAppInitialized = true;
     }
 }
