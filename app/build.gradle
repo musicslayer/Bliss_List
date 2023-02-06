@@ -43,6 +43,7 @@ android {
 
     buildTypes {
         // TEST
+
         debug {
         }
         release {
@@ -50,9 +51,10 @@ android {
             debuggable true
         }
 
-        /*
 
 
+
+/*
         // REAL
         debug {
             minifyEnabled true
@@ -67,9 +69,9 @@ android {
                 debugSymbolLevel 'FULL'
             }
         }
+*/
 
 
-         */
 
 
     }
@@ -99,6 +101,7 @@ dependencies {
     //noinspection GradleDependency
     implementation 'commons-io:commons-io:2.4' // Keep this at 2.4 so we can support older android versions.
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
     implementation 'com.google.android.material:material:1.8.0'
     runtimeOnly 'github.ryuunoakaihitomi.retoast:retoast:1.7.0'
 }

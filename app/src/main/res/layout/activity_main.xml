@@ -60,17 +60,21 @@
         android:text="Need" />
 
     <ScrollView
-        android:id="@+id/chart_portfolio_viewer_needScrollView"
-        android:layout_width="wrap_content"
+        android:id="@+id/main_needScrollView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/main_halfWayVertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_needText">
 
-        <TableLayout
-            android:id="@+id/main_needTableLayout"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/main_needFlexboxLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:alignContent="stretch"
+            app:alignItems="stretch"
+            app:flexWrap="wrap" />
     </ScrollView>
 
     <androidx.constraintlayout.widget.Guideline
@@ -89,17 +93,21 @@
         android:text="Full" />
 
     <ScrollView
-        android:id="@+id/chart_portfolio_viewer_fullScrollView"
-        android:layout_width="wrap_content"
+        android:id="@+id/main_fullScrollView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_fullText">
 
-        <TableLayout
-            android:id="@+id/main_fullTableLayout"
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/main_fullFlexboxLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:alignContent="stretch"
+            app:alignItems="stretch"
+            app:flexWrap="wrap" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,12 +5,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
@@ -83,11 +82,11 @@ public class MainActivity extends BaseActivity {
             removeButton.clearColorFilter();
         }
 
-        TableLayout tableNeed = findViewById(R.id.main_needTableLayout);
-        TableLayout tableFull = findViewById(R.id.main_fullTableLayout);
+        FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
+        FlexboxLayout flexboxLayoutFull = findViewById(R.id.main_fullFlexboxLayout);
 
-        tableNeed.removeAllViews();
-        tableFull.removeAllViews();
+        flexboxLayoutNeed.removeAllViews();
+        flexboxLayoutFull.removeAllViews();
 
         for(String item : Item.items) {
             AppCompatButton B_ITEM = new AppCompatButton(this);
@@ -108,17 +107,11 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            TableRow.LayoutParams TRP = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-            TRP.setMargins(80,0,0,0);
-
-            TableRow TR = new TableRow(this);
-            TR.addView(B_ITEM);
-
             if(Item.isFull(item)) {
-                tableFull.addView(TR);
+                flexboxLayoutFull.addView(B_ITEM);
             }
             else {
-                tableNeed.addView(TR);
+                flexboxLayoutNeed.addView(B_ITEM);
             }
         }
     }
