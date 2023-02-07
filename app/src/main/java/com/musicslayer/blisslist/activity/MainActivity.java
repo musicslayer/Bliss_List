@@ -120,10 +120,10 @@ public class MainActivity extends BaseActivity {
         }
 
         FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
-        FlexboxLayout flexboxLayoutFull = findViewById(R.id.main_fullFlexboxLayout);
+        FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
 
         flexboxLayoutNeed.removeAllViews();
-        flexboxLayoutFull.removeAllViews();
+        flexboxLayoutHave.removeAllViews();
 
         if(Category.getItem(Category.currentCategoryName) != null) {
             for(String itemName : Category.getItem(Category.currentCategoryName).itemNames) {
@@ -137,16 +137,16 @@ public class MainActivity extends BaseActivity {
                             Category.getItem(Category.currentCategoryName).removeItem(itemName);
                         }
                         else {
-                            boolean isFull = Category.getItem(Category.currentCategoryName).isFull(itemName);
-                            Category.getItem(Category.currentCategoryName).updateItem(itemName, !isFull);
+                            boolean isHave = Category.getItem(Category.currentCategoryName).isHave(itemName);
+                            Category.getItem(Category.currentCategoryName).updateItem(itemName, !isHave);
                         }
 
                         updateLayout();
                     }
                 });
 
-                if(Category.getItem(Category.currentCategoryName).isFull(itemName)) {
-                    flexboxLayoutFull.addView(B_ITEM);
+                if(Category.getItem(Category.currentCategoryName).isHave(itemName)) {
+                    flexboxLayoutHave.addView(B_ITEM);
                 }
                 else {
                     flexboxLayoutNeed.addView(B_ITEM);

@@ -96,24 +96,24 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <TextView
-        android:id="@+id/main_fullText"
+        android:id="@+id/main_haveText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/main_halfWayHorizontal"
         app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
-        android:text="Full" />
+        android:text="Have" />
 
     <ScrollView
-        android:id="@+id/main_fullScrollView"
+        android:id="@+id/main_haveScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/main_halfWayHorizontal"
-        app:layout_constraintTop_toBottomOf="@+id/main_fullText">
+        app:layout_constraintTop_toBottomOf="@+id/main_HaveText">
 
         <com.google.android.flexbox.FlexboxLayout
-            android:id="@+id/main_fullFlexboxLayout"
+            android:id="@+id/main_haveFlexboxLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:alignContent="stretch"
