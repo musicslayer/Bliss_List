@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -38,7 +39,11 @@ public class MainActivity extends BaseActivity {
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRemove = false;
+
                 HelpUtil.showHelp(MainActivity.this, R.raw.help_main);
+
+                updateLayout();
             }
         });
 
@@ -65,7 +70,11 @@ public class MainActivity extends BaseActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRemove = false;
+
                 addItemDialogFragment.show(MainActivity.this, "add");
+
+                updateLayout();
             }
         });
 
@@ -95,7 +104,11 @@ public class MainActivity extends BaseActivity {
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRemove = false;
+
                 chooseCategoryDialogFragment.show(MainActivity.this, "category");
+
+                updateLayout();
             }
         });
 
@@ -111,7 +124,7 @@ public class MainActivity extends BaseActivity {
         }
         toolbar.setSubtitle(subtitle);
 
-        ImageButton removeButton = findViewById(R.id.main_removeButton);
+        AppCompatImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemove) {
             removeButton.setColorFilter(Color.RED);
         }

@@ -17,19 +17,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Choose Category" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/choose_category_dialog_addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create New Category"
-        app:drawableLeftCompat="@drawable/baseline_add_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
+        app:srcCompat="@drawable/baseline_add_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/choose_category_dialog_removeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/choose_category_dialog_addButton"
+        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
+        app:srcCompat="@drawable/baseline_delete_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/choose_category_dialog_editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/choose_category_dialog_removeButton"
+        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
+        app:srcCompat="@drawable/baseline_edit_24" />
 
     <TableLayout
         android:id="@+id/choose_category_dialog_tableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_addButton" />
 

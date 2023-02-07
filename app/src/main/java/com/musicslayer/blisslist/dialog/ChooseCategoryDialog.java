@@ -2,10 +2,10 @@ package com.musicslayer.blisslist.dialog;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -23,6 +23,8 @@ import java.util.Comparator;
 public class ChooseCategoryDialog extends BaseDialog {
     String currentDeleteCategoryName;
     String currentRenameCategoryName;
+    boolean isEdit;
+    boolean isRemove;
 
     public String user_CATEGORY;
 
@@ -56,11 +58,38 @@ public class ChooseCategoryDialog extends BaseDialog {
         });
         createCategoryDialogFragment.restoreListeners(activity, "create");
 
-        Button B_ADD = findViewById(R.id.choose_category_dialog_addButton);
+        AppCompatImageButton B_ADD = findViewById(R.id.choose_category_dialog_addButton);
         B_ADD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEdit = false;
+                isRemove = false;
+
+                updateLayout();
+
                 createCategoryDialogFragment.show(activity, "create");
+            }
+        });
+
+        AppCompatImageButton B_REMOVE = findViewById(R.id.choose_category_dialog_removeButton);
+        B_REMOVE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isEdit = false;
+                isRemove = !isRemove;
+
+                updateLayout();
+            }
+        });
+
+        AppCompatImageButton B_EDIT = findViewById(R.id.choose_category_dialog_editButton);
+        B_EDIT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isEdit = !isEdit;
+                isRemove = false;
+
+                updateLayout();
             }
         });
 
@@ -68,6 +97,22 @@ public class ChooseCategoryDialog extends BaseDialog {
     }
 
     public void updateLayout() {
+        AppCompatImageButton B_REMOVE = findViewById(R.id.choose_category_dialog_removeButton);
+        if(isRemove) {
+            B_REMOVE.setColorFilter(Color.RED);
+        }
+        else {
+            B_REMOVE.clearColorFilter();
+        }
+
+        AppCompatImageButton B_EDIT = findViewById(R.id.choose_category_dialog_editButton);
+        if(isEdit) {
+            B_EDIT.setColorFilter(Color.RED);
+        }
+        else {
+            B_EDIT.clearColorFilter();
+        }
+
         TableLayout table = findViewById(R.id.choose_category_dialog_tableLayout);
         table.removeAllViews();
 
@@ -119,39 +164,6 @@ public class ChooseCategoryDialog extends BaseDialog {
         Collections.sort(categoryNames, Comparator.comparing(String::toLowerCase));
 
         for(String categoryName : categoryNames) {
-            AppCompatImageButton B_DELETE = new AppCompatImageButton(activity);
-            B_DELETE.setImageResource(R.drawable.baseline_delete_24);
-            B_DELETE.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(Category.numCategories() == 1) {
-                        ToastUtil.showToast("only_category_cannot_be_deleted");
-                    }
-                    else if(categoryName.equals(Category.currentCategoryName)) {
-                        ToastUtil.showToast("current_category_cannot_be_deleted");
-                    }
-                    else if(categoryName.equals(Category.favoriteCategoryName)) {
-                        ToastUtil.showToast("favorite_category_cannot_be_deleted");
-                    }
-                    else {
-                        currentDeleteCategoryName = categoryName;
-                        confirmDeleteCategoryDialogFragment.updateArguments(ConfirmDeleteCategoryDialog.class, categoryName);
-                        confirmDeleteCategoryDialogFragment.show(activity, "delete");
-                    }
-                }
-            });
-
-            AppCompatImageButton B_RENAME = new AppCompatImageButton(activity);
-            B_RENAME.setImageResource(R.drawable.baseline_edit_24);
-            B_RENAME.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentRenameCategoryName = categoryName;
-                    renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
-                    renameCategoryDialogFragment.show(activity, "rename");
-                }
-            });
-
             AppCompatImageButton B_FAVORITE = new AppCompatImageButton(activity);
             if(categoryName.equals(Category.favoriteCategoryName)) {
                 B_FAVORITE.setImageResource(R.drawable.baseline_favorite_24);
@@ -163,8 +175,11 @@ public class ChooseCategoryDialog extends BaseDialog {
                 @Override
                 public void onClick(View view) {
                     if(!categoryName.equals(Category.favoriteCategoryName)) {
-                        // Register new favorite.
+                        isEdit = false;
+                        isRemove = false;
+
                         Category.favoriteCategory(categoryName);
+
                         updateLayout();
                         activity.updateLayout();
                     }
@@ -178,18 +193,43 @@ public class ChooseCategoryDialog extends BaseDialog {
             B.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    user_CATEGORY = categoryName;
-                    isComplete = true;
-                    dismiss();
+                    if(isEdit) {
+                        currentRenameCategoryName = categoryName;
+                        renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
+                        renameCategoryDialogFragment.show(activity, "rename");
+                    }
+                    else if(isRemove) {
+                        if(Category.numCategories() == 1) {
+                            ToastUtil.showToast("only_category_cannot_be_deleted");
+                        }
+                        else if(categoryName.equals(Category.currentCategoryName)) {
+                            ToastUtil.showToast("current_category_cannot_be_deleted");
+                        }
+                        else if(categoryName.equals(Category.favoriteCategoryName)) {
+                            ToastUtil.showToast("favorite_category_cannot_be_deleted");
+                        }
+                        else {
+                            currentDeleteCategoryName = categoryName;
+                            confirmDeleteCategoryDialogFragment.updateArguments(ConfirmDeleteCategoryDialog.class, categoryName);
+                            confirmDeleteCategoryDialogFragment.show(activity, "delete");
+                        }
+                    }
+                    else {
+                        user_CATEGORY = categoryName;
+                        isComplete = true;
+                        dismiss();
+                    }
+
+                    isEdit = false;
+                    isRemove = false;
+
+                    updateLayout();
                 }
             });
 
             TableRow.LayoutParams TRP = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
-            TRP.setMargins(80,0,0,0);
 
             TableRow TR = new TableRow(activity);
-            TR.addView(B_DELETE);
-            TR.addView(B_RENAME);
             TR.addView(B_FAVORITE);
             TR.addView(B, TRP);
             table.addView(TR);
@@ -201,6 +241,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         Bundle bundle = super.onSaveInstanceState();
         bundle.putString("currentDeleteCategoryName", currentDeleteCategoryName);
         bundle.putString("currentRenameCategoryName", currentRenameCategoryName);
+        bundle.putBoolean("isEdit", isEdit);
+        bundle.putBoolean("isRemove", isRemove);
         return bundle;
     }
 
@@ -209,6 +251,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         if(bundle != null) {
             currentDeleteCategoryName = bundle.getString("currentDeleteCategoryName");
             currentRenameCategoryName = bundle.getString("currentRenameCategoryName");
+            isEdit = bundle.getBoolean("isEdit");
+            isRemove = bundle.getBoolean("isRemove");
         }
         super.onRestoreInstanceState(bundle);
     }
