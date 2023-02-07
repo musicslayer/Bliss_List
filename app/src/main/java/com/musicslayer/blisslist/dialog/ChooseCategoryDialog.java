@@ -98,6 +98,11 @@ public class ChooseCategoryDialog extends BaseDialog {
                     else {
                         Category.renameCategory(currentRenameCategoryName, newName);
                         updateLayout();
+
+                        if(currentRenameCategoryName.equals(Category.currentCategoryName)) {
+                            Category.currentCategoryName = newName;
+                            activity.updateLayout();
+                        }
                     }
                 }
             }
@@ -113,8 +118,16 @@ public class ChooseCategoryDialog extends BaseDialog {
             B_DELETE.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    currentDeleteCategoryName = categoryName;
-                    confirmDeleteCategoryDialogFragment.show(activity, "delete");
+                    if(Category.numCategories() == 1) {
+                        ToastUtil.showToast("only_category_cannot_be_deleted");
+                    }
+                    else if(categoryName.equals(Category.currentCategoryName)) {
+                        ToastUtil.showToast("current_category_cannot_be_deleted");
+                    }
+                    else {
+                        currentDeleteCategoryName = categoryName;
+                        confirmDeleteCategoryDialogFragment.show(activity, "delete");
+                    }
                 }
             });
 

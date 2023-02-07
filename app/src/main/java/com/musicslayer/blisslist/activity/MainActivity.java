@@ -21,7 +21,6 @@ import com.musicslayer.blisslist.util.ToastUtil;
 
 public class MainActivity extends BaseActivity {
     public boolean isRemove;
-    public String currentCategory;
 
     @Override
     public void onBackPressed() {
@@ -34,8 +33,6 @@ public class MainActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-
-        currentCategory = "()";
 
         ImageButton helpButton = findViewById(R.id.main_helpButton);
         helpButton.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +49,11 @@ public class MainActivity extends BaseActivity {
                 if(((AddItemDialog)dialog).isComplete) {
                     String itemName = ((AddItemDialog)dialog).user_ITEMNAME;
 
-                    if(Category.getItem(currentCategory).isSaved(itemName)) {
+                    if(Category.getItem(Category.currentCategoryName).isSaved(itemName)) {
                         ToastUtil.showToast("item_name_used");
                     }
                     else {
-                        Category.getItem(currentCategory).addItem(itemName, false);
+                        Category.getItem(Category.currentCategoryName).addItem(itemName, false);
                         updateLayout();
                     }
                 }
@@ -87,7 +84,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if(((ChooseCategoryDialog)dialog).isComplete) {
-                    currentCategory = ((ChooseCategoryDialog)dialog).user_CATEGORY;
+                    Category.currentCategoryName = ((ChooseCategoryDialog)dialog).user_CATEGORY;
                     updateLayout();
                 }
             }
@@ -107,7 +104,7 @@ public class MainActivity extends BaseActivity {
 
     public void updateLayout() {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
-        toolbar.setSubtitle(currentCategory);
+        toolbar.setSubtitle(Category.currentCategoryName);
 
         ImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemove) {
@@ -123,8 +120,8 @@ public class MainActivity extends BaseActivity {
         flexboxLayoutNeed.removeAllViews();
         flexboxLayoutFull.removeAllViews();
 
-        if(Category.getItem(currentCategory) != null) {
-            for(String itemName : Category.getItem(currentCategory).itemNames) {
+        if(Category.getItem(Category.currentCategoryName) != null) {
+            for(String itemName : Category.getItem(Category.currentCategoryName).itemNames) {
                 AppCompatButton B_ITEM = new AppCompatButton(this);
                 B_ITEM.setText(itemName);
                 B_ITEM.setOnClickListener(new View.OnClickListener() {
@@ -132,18 +129,18 @@ public class MainActivity extends BaseActivity {
                     public void onClick(View view) {
                         if(isRemove) {
                             isRemove = false;
-                            Category.getItem(currentCategory).removeItem(itemName);
+                            Category.getItem(Category.currentCategoryName).removeItem(itemName);
                         }
                         else {
-                            boolean isFull = Category.getItem(currentCategory).isFull(itemName);
-                            Category.getItem(currentCategory).updateItem(itemName, !isFull);
+                            boolean isFull = Category.getItem(Category.currentCategoryName).isFull(itemName);
+                            Category.getItem(Category.currentCategoryName).updateItem(itemName, !isFull);
                         }
 
                         updateLayout();
                     }
                 });
 
-                if(Category.getItem(currentCategory).isFull(itemName)) {
+                if(Category.getItem(Category.currentCategoryName).isFull(itemName)) {
                     flexboxLayoutFull.addView(B_ITEM);
                 }
                 else {
@@ -157,14 +154,12 @@ public class MainActivity extends BaseActivity {
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean("isRemove", isRemove);
-        bundle.putString("currentCategory", currentCategory);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
         if(bundle != null) {
             isRemove = bundle.getBoolean("isRemove");
-            currentCategory = bundle.getString("currentCategory");
             updateLayout();
         }
         super.onRestoreInstanceState(bundle);

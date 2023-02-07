@@ -7,11 +7,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Category {
+    public static String currentCategoryName;
     public static ArrayList<String> categoryNames = new ArrayList<>();
     public static HashMap<String, Item> map_items = new HashMap<>();
 
+    public static void createDefaultIfNeeded() {
+        if(Category.numCategories() == 0) {
+            addCategory("Default");
+        }
+    }
+
     public static Item getItem(String categoryName) {
         return HashMapUtil.getValueFromMap(map_items, categoryName);
+    }
+
+    public static int numCategories() {
+        return categoryNames.size();
     }
 
     public static boolean isSaved(String categoryName) {

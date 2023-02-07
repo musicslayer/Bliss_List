@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.musicslayer.blisslist.app.App;
 import com.musicslayer.blisslist.data.persistent.app.CategoryList;
+import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.ToastUtil;
 
 // This Activity class only exists for initialization code, not to be seen by the user.
@@ -17,9 +18,22 @@ public class InitialActivity extends BaseActivity {
     }
 
     public void initialize() {
+        // Initialize all the local app objects.
+        ToastUtil.initialize();
+
+        // Load all the stored data into local memory.
         new CategoryList().loadAllData();
 
-        ToastUtil.initialize();
+        // If there are no categories, create a default one so the user can get started easily.
+        Category.createDefaultIfNeeded();
+
+        // TODO Use the favorite category that the user picked.
+        // For now, just start with the first category. There should always be at least one item here.
+        Category.currentCategoryName = Category.categoryNames.get(0);
+
+        // Save all the stored data right after loading it.
+        // This makes sure the stored data is initialized and helps remove data with outdated versions.
+        new CategoryList().saveAllData();
 
         App.isAppInitialized = true;
     }
