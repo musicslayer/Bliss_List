@@ -15,7 +15,7 @@ import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
 import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
-import com.musicslayer.blisslist.item.Item;
+import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.HelpUtil;
 import com.musicslayer.blisslist.util.ToastUtil;
 
@@ -52,11 +52,11 @@ public class MainActivity extends BaseActivity {
                 if(((AddItemDialog)dialog).isComplete) {
                     String itemName = ((AddItemDialog)dialog).user_ITEMNAME;
 
-                    if(Item.isSaved(itemName)) {
+                    if(Category.getItem(currentCategory).isSaved(itemName)) {
                         ToastUtil.showToast("item_name_used");
                     }
                     else {
-                        Item.addItem(itemName, false);
+                        Category.getItem(currentCategory).addItem(itemName, false);
                         updateLayout();
                     }
                 }
@@ -123,30 +123,32 @@ public class MainActivity extends BaseActivity {
         flexboxLayoutNeed.removeAllViews();
         flexboxLayoutFull.removeAllViews();
 
-        for(String item : Item.items) {
-            AppCompatButton B_ITEM = new AppCompatButton(this);
-            B_ITEM.setText(item);
-            B_ITEM.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(isRemove) {
-                        isRemove = false;
-                        Item.removeItem(item);
-                    }
-                    else {
-                        boolean isFull = Item.isFull(item);
-                        Item.updateItem(item, !isFull);
-                    }
+        if(Category.getItem(currentCategory) != null) {
+            for(String itemName : Category.getItem(currentCategory).itemNames) {
+                AppCompatButton B_ITEM = new AppCompatButton(this);
+                B_ITEM.setText(itemName);
+                B_ITEM.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(isRemove) {
+                            isRemove = false;
+                            Category.getItem(currentCategory).removeItem(itemName);
+                        }
+                        else {
+                            boolean isFull = Category.getItem(currentCategory).isFull(itemName);
+                            Category.getItem(currentCategory).updateItem(itemName, !isFull);
+                        }
 
-                    updateLayout();
+                        updateLayout();
+                    }
+                });
+
+                if(Category.getItem(currentCategory).isFull(itemName)) {
+                    flexboxLayoutFull.addView(B_ITEM);
                 }
-            });
-
-            if(Item.isFull(item)) {
-                flexboxLayoutFull.addView(B_ITEM);
-            }
-            else {
-                flexboxLayoutNeed.addView(B_ITEM);
+                else {
+                    flexboxLayoutNeed.addView(B_ITEM);
+                }
             }
         }
     }

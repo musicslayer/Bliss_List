@@ -1,44 +1,59 @@
 package com.musicslayer.blisslist.item;
 
 import com.musicslayer.blisslist.data.persistent.app.CategoryList;
+import com.musicslayer.blisslist.util.HashMapUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Category {
-    public static ArrayList<String> categories = new ArrayList<>();
+    public static ArrayList<String> categoryNames = new ArrayList<>();
+    public static HashMap<String, Item> map_items = new HashMap<>();
 
-    public static boolean isSaved(String category) {
-        return categories.contains(category);
+    public static Item getItem(String categoryName) {
+        return HashMapUtil.getValueFromMap(map_items, categoryName);
     }
 
-    public static void addCategoryNoSave(String category) {
-        // Assume the category doesn't already exist.
-        categories.add(category);
+    public static boolean isSaved(String categoryName) {
+        return categoryNames.contains(categoryName);
     }
 
-    public static void addCategory(String category) {
-        // Assume the category doesn't already exist.
-        categories.add(category);
+    public static void addCategoryNoSave(String categoryName) {
+        // Assume the category name doesn't already exist.
+        categoryNames.add(categoryName);
+        HashMapUtil.putValueInMap(map_items, categoryName, new Item());
+    }
+
+    public static void addCategory(String categoryName) {
+        // Assume the category name doesn't already exist.
+        categoryNames.add(categoryName);
 
         new CategoryList().saveAllData();
     }
 
-    public static void removeCategory(String category) {
-        // Assume the item already exists.
-        categories.remove(category);
+    public static void removeCategory(String categoryName) {
+        // Assume the category name already exists.
+        categoryNames.remove(categoryName);
+        HashMapUtil.removeValueFromMap(map_items, categoryName);
 
         new CategoryList().saveAllData();
     }
 
-    public static void renameCategory(String oldCategory, String newCategory) {
-        // Assume the item already exists.
-        categories.remove(oldCategory);
-        categories.add(newCategory);
+    public static void renameCategory(String oldCategoryName, String newCategoryName) {
+        // Assume the category name already exists.
+        Item item = getItem(oldCategoryName);
+
+        categoryNames.remove(oldCategoryName);
+        categoryNames.add(newCategoryName);
+
+        HashMapUtil.removeValueFromMap(map_items, oldCategoryName);
+        HashMapUtil.putValueInMap(map_items, newCategoryName, item);
 
         new CategoryList().saveAllData();
     }
 
     public static void reset() {
-        categories = new ArrayList<>();
+        categoryNames = new ArrayList<>();
+        map_items = new HashMap<>();
     }
 }

@@ -18,7 +18,7 @@ public class CategoryList {
 
         editor.clear();
 
-        ArrayList<String> categories = Category.categories;
+        ArrayList<String> categories = Category.categoryNames;
 
         int size = categories.size();
         editor.putInt("category_size", size);

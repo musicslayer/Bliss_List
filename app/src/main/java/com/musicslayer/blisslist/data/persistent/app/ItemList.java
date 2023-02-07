@@ -16,8 +16,9 @@ public class ItemList {
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.clear();
+        //editor.clear();
 
+/*
         ArrayList<String> items = Item.items;
 
         int size = items.size();
@@ -29,10 +30,13 @@ public class ItemList {
             editor.putBoolean("item_full_" + i, Item.isFull(item));
         }
 
-        editor.apply();
+ */
+
+        //editor.apply();
     }
 
     public void loadAllData() {
+    /*
         Item.reset();
 
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
@@ -44,5 +48,7 @@ public class ItemList {
             boolean isFull = sharedPreferences.getBoolean("item_full_" + i, false);
             Item.addItemNoSave(item, isFull);
         }
+
+     */
     }
 }
