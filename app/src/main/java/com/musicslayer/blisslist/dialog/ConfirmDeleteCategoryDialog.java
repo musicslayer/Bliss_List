@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.musicslayer.blisslist.R;
-import com.musicslayer.blisslist.view.ConfirmationView;
 
 public class ConfirmDeleteCategoryDialog extends BaseDialog {
-    public ConfirmDeleteCategoryDialog(Activity activity) {
+    String name;
+
+    public ConfirmDeleteCategoryDialog(Activity activity, String name) {
         super(activity);
+        this.name = name;
     }
 
     public int getBaseViewID() {
@@ -20,10 +23,13 @@ public class ConfirmDeleteCategoryDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_confirm_delete_category);
 
-        ConfirmationView C = findViewById(R.id.confirm_delete_category_dialog_confirmationView);
-        C.setOnConfirmationListener(new ConfirmationView.ConfirmationListener() {
+        TextView T = findViewById(R.id.confirm_delete_category_dialog_textView);
+        T.setText("Category Name: " + name);
+
+        Button B_CONFIRM = findViewById(R.id.confirm_delete_category_dialog_confirmButton);
+        B_CONFIRM.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onConfirmation(ConfirmationView confirmationView) {
+            public void onClick(View v) {
                 isComplete = true;
                 dismiss();
             }

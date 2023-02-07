@@ -70,7 +70,7 @@ public class ChooseCategoryDialog extends BaseDialog {
         TableLayout table = findViewById(R.id.choose_category_dialog_tableLayout);
         table.removeAllViews();
 
-        BaseDialogFragment confirmDeleteCategoryDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteCategoryDialog.class);
+        BaseDialogFragment confirmDeleteCategoryDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteCategoryDialog.class, "");
         confirmDeleteCategoryDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -134,6 +134,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                     }
                     else {
                         currentDeleteCategoryName = categoryName;
+                        confirmDeleteCategoryDialogFragment.updateArguments(ConfirmDeleteCategoryDialog.class, categoryName);
                         confirmDeleteCategoryDialogFragment.show(activity, "delete");
                     }
                 }

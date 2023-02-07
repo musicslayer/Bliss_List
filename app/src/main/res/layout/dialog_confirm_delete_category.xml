@@ -17,21 +17,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Delete Category?" />
 
-    <com.musicslayer.blisslist.view.ConfirmationView
-        android:id="@+id/confirm_delete_category_dialog_confirmationView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/confirm_delete_category_dialog_textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Category Name:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_delete_category_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/confirm_delete_category_dialog_toolbar" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirm_delete_category_dialog_confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableLeftCompat="@drawable/baseline_check_24"
+        android:text="Confirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_delete_category_dialog_textView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirm_delete_category_dialog_cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
         app:drawableLeftCompat="@drawable/baseline_cancel_24"
         android:text="Cancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_delete_category_dialog_confirmationView" />
+        app:layout_constraintStart_toEndOf="@+id/confirm_delete_category_dialog_confirmButton"
+        app:layout_constraintTop_toBottomOf="@+id/confirm_delete_category_dialog_textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
