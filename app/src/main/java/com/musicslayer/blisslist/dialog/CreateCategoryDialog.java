@@ -9,23 +9,23 @@ import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
-public class AddItemDialog extends BaseDialog {
-    public String user_ITEMNAME;
+public class CreateCategoryDialog extends BaseDialog {
+    public String user_NAME;
 
-    public AddItemDialog(Activity activity) {
+    public CreateCategoryDialog(Activity activity) {
         super(activity);
     }
 
     public int getBaseViewID() {
-        return R.id.add_item_dialog;
+        return R.id.create_category_dialog;
     }
 
     public void createLayout(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_add_item);
+        setContentView(R.layout.dialog_create_category);
 
-        final PlainTextEditText E = findViewById(R.id.add_item_dialog_editText);
+        final PlainTextEditText E = findViewById(R.id.create_category_dialog_editText);
 
-        Button B_CREATE = findViewById(R.id.add_item_dialog_createButton);
+        Button B_CREATE = findViewById(R.id.create_category_dialog_createButton);
         B_CREATE.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isValid = E.test();
@@ -34,7 +34,7 @@ public class AddItemDialog extends BaseDialog {
                     ToastUtil.showToast("must_fill_inputs");
                 }
                 else {
-                    user_ITEMNAME = E.getTextString();
+                    user_NAME = E.getTextString();
 
                     isComplete = true;
                     dismiss();

@@ -51,6 +51,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_add_circle_outline_24" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/main_categoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/main_addButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_category_24" />
+
     <TextView
         android:id="@+id/main_needText"
         android:layout_width="wrap_content"

@@ -10,6 +10,10 @@ public class Item {
     public static ArrayList<String> items = new ArrayList<>();
     private static HashMap<String, Boolean> map_isFull = new HashMap<>();
 
+    public static boolean isSaved(String item) {
+        return items.contains(item);
+    }
+
     public static void addItemNoSave(String item, boolean isFull) {
         // Assume the item doesn't already exist.
         items.add(item);

@@ -4,29 +4,36 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
-public class AddItemDialog extends BaseDialog {
-    public String user_ITEMNAME;
+public class RenameCategoryDialog extends BaseDialog {
+    String oldName;
 
-    public AddItemDialog(Activity activity) {
+    public String user_NEWNAME;
+
+    public RenameCategoryDialog(Activity activity, String oldName) {
         super(activity);
+        this.oldName = oldName;
     }
 
     public int getBaseViewID() {
-        return R.id.add_item_dialog;
+        return R.id.rename_category_dialog;
     }
 
     public void createLayout(Bundle savedInstanceState) {
-        setContentView(R.layout.dialog_add_item);
+        setContentView(R.layout.dialog_rename_category);
 
-        final PlainTextEditText E = findViewById(R.id.add_item_dialog_editText);
+        TextView T = findViewById(R.id.rename_category_dialog_currentTextView);
+        T.setText("Current Portfolio Name: " + oldName);
 
-        Button B_CREATE = findViewById(R.id.add_item_dialog_createButton);
-        B_CREATE.setOnClickListener(new View.OnClickListener() {
+        final PlainTextEditText E = findViewById(R.id.rename_category_dialog_editText);
+
+        Button B_RENAME = findViewById(R.id.rename_category_dialog_renameButton);
+        B_RENAME.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isValid = E.test();
 
@@ -34,7 +41,7 @@ public class AddItemDialog extends BaseDialog {
                     ToastUtil.showToast("must_fill_inputs");
                 }
                 else {
-                    user_ITEMNAME = E.getTextString();
+                    user_NEWNAME = E.getTextString();
 
                     isComplete = true;
                     dismiss();

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -13,11 +14,14 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
+import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
 import com.musicslayer.blisslist.item.Item;
 import com.musicslayer.blisslist.util.HelpUtil;
+import com.musicslayer.blisslist.util.ToastUtil;
 
 public class MainActivity extends BaseActivity {
     public boolean isRemove;
+    public String currentCategory;
 
     @Override
     public void onBackPressed() {
@@ -30,6 +34,8 @@ public class MainActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        currentCategory = "()";
 
         ImageButton helpButton = findViewById(R.id.main_helpButton);
         helpButton.setOnClickListener(new View.OnClickListener() {
@@ -44,9 +50,15 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if(((AddItemDialog)dialog).isComplete) {
-                    String itemName = ((AddItemDialog)dialog).itemName;
-                    Item.addItem(itemName, false);
-                    updateLayout();
+                    String itemName = ((AddItemDialog)dialog).user_ITEMNAME;
+
+                    if(Item.isSaved(itemName)) {
+                        ToastUtil.showToast("item_name_used");
+                    }
+                    else {
+                        Item.addItem(itemName, false);
+                        updateLayout();
+                    }
                 }
             }
         });
@@ -70,10 +82,33 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        BaseDialogFragment chooseCategoryDialogFragment = BaseDialogFragment.newInstance(ChooseCategoryDialog.class);
+        chooseCategoryDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((ChooseCategoryDialog)dialog).isComplete) {
+                    currentCategory = ((ChooseCategoryDialog)dialog).user_CATEGORY;
+                    updateLayout();
+                }
+            }
+        });
+        chooseCategoryDialogFragment.restoreListeners(this, "category");
+
+        ImageButton categoryButton = findViewById(R.id.main_categoryButton);
+        categoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseCategoryDialogFragment.show(MainActivity.this, "category");
+            }
+        });
+
         updateLayout();
     }
 
     public void updateLayout() {
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setSubtitle(currentCategory);
+
         ImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemove) {
             removeButton.setColorFilter(Color.RED);
@@ -114,5 +149,22 @@ public class MainActivity extends BaseActivity {
                 flexboxLayoutNeed.addView(B_ITEM);
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean("isRemove", isRemove);
+        bundle.putString("currentCategory", currentCategory);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+        if(bundle != null) {
+            isRemove = bundle.getBoolean("isRemove");
+            currentCategory = bundle.getString("currentCategory");
+            updateLayout();
+        }
+        super.onRestoreInstanceState(bundle);
     }
 }
