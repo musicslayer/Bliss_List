@@ -18,25 +18,14 @@
         app:title="@string/app_title" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/main_helpButton"
+        android:id="@+id/main_removeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@+id/main_toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/main_toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_help_outline_24" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/main_removeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="-16dp"
-        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
-        app:layout_constraintEnd_toStartOf="@id/main_helpButton"
+        app:layout_constraintEnd_toEndOf="@+id/main_toolbar"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_remove_circle_outline_24" />
 

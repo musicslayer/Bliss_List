@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -17,7 +16,6 @@ import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
 import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
 import com.musicslayer.blisslist.item.Category;
-import com.musicslayer.blisslist.util.HelpUtil;
 import com.musicslayer.blisslist.util.ToastUtil;
 
 public class MainActivity extends BaseActivity {
@@ -34,18 +32,6 @@ public class MainActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-
-        ImageButton helpButton = findViewById(R.id.main_helpButton);
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isRemove = false;
-
-                HelpUtil.showHelp(MainActivity.this, R.raw.help_main);
-
-                updateLayout();
-            }
-        });
 
         BaseDialogFragment addItemDialogFragment = BaseDialogFragment.newInstance(AddItemDialog.class);
         addItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -66,7 +52,7 @@ public class MainActivity extends BaseActivity {
         });
         addItemDialogFragment.restoreListeners(this, "add");
 
-        ImageButton addButton = findViewById(R.id.main_addButton);
+        AppCompatImageButton addButton = findViewById(R.id.main_addButton);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +64,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        ImageButton removeButton = findViewById(R.id.main_removeButton);
+        AppCompatImageButton removeButton = findViewById(R.id.main_removeButton);
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +86,7 @@ public class MainActivity extends BaseActivity {
         });
         chooseCategoryDialogFragment.restoreListeners(this, "category");
 
-        ImageButton categoryButton = findViewById(R.id.main_categoryButton);
+        AppCompatImageButton categoryButton = findViewById(R.id.main_categoryButton);
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
