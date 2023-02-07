@@ -34,6 +34,8 @@ public class CategoryList {
             editor.putString("category_item_" + i, DataBridge.serialize(item, Item.class));
         }
 
+        editor.putString("category_favorite", Category.favoriteCategoryName);
+
         editor.apply();
     }
 
@@ -52,5 +54,7 @@ public class CategoryList {
 
             HashMapUtil.putValueInMap(Category.map_items, categoryName, item);
         }
+
+        Category.favoriteCategoryName = sharedPreferences.getString("category_favorite", "?");
     }
 }

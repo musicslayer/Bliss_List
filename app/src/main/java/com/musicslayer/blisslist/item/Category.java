@@ -8,12 +8,14 @@ import java.util.HashMap;
 
 public class Category {
     public static String currentCategoryName;
+    public static String favoriteCategoryName;
     public static ArrayList<String> categoryNames = new ArrayList<>();
     public static HashMap<String, Item> map_items = new HashMap<>();
 
     public static void createDefaultIfNeeded() {
         if(Category.numCategories() == 0) {
             addCategory("Default");
+            favoriteCategory("Default");
         }
     }
 
@@ -39,6 +41,13 @@ public class Category {
         // Assume the category name doesn't already exist.
         categoryNames.add(categoryName);
         HashMapUtil.putValueInMap(map_items, categoryName, new Item());
+
+        new CategoryList().saveAllData();
+    }
+
+    public static void favoriteCategory(String categoryName) {
+        // Assume the category name already exists.
+        favoriteCategoryName = categoryName;
 
         new CategoryList().saveAllData();
     }

@@ -27,9 +27,8 @@ public class InitialActivity extends BaseActivity {
         // If there are no categories, create a default one so the user can get started easily.
         Category.createDefaultIfNeeded();
 
-        // TODO Use the favorite category that the user picked.
-        // For now, just start with the first category. There should always be at least one item here.
-        Category.currentCategoryName = Category.categoryNames.get(0);
+        // When first loading the app, start with the user's favorite category.
+        Category.currentCategoryName = Category.favoriteCategoryName;
 
         // Save all the stored data right after loading it.
         // This makes sure the stored data is initialized and helps remove data with outdated versions.

@@ -97,12 +97,17 @@ public class ChooseCategoryDialog extends BaseDialog {
                     }
                     else {
                         Category.renameCategory(currentRenameCategoryName, newName);
-                        updateLayout();
 
                         if(currentRenameCategoryName.equals(Category.currentCategoryName)) {
                             Category.currentCategoryName = newName;
-                            activity.updateLayout();
                         }
+
+                        if(currentRenameCategoryName.equals(Category.favoriteCategoryName)) {
+                            Category.favoriteCategory(newName);
+                        }
+
+                        updateLayout();
+                        activity.updateLayout();
                     }
                 }
             }
@@ -124,6 +129,9 @@ public class ChooseCategoryDialog extends BaseDialog {
                     else if(categoryName.equals(Category.currentCategoryName)) {
                         ToastUtil.showToast("current_category_cannot_be_deleted");
                     }
+                    else if(categoryName.equals(Category.favoriteCategoryName)) {
+                        ToastUtil.showToast("favorite_category_cannot_be_deleted");
+                    }
                     else {
                         currentDeleteCategoryName = categoryName;
                         confirmDeleteCategoryDialogFragment.show(activity, "delete");
@@ -139,6 +147,25 @@ public class ChooseCategoryDialog extends BaseDialog {
                     currentRenameCategoryName = categoryName;
                     renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
                     renameCategoryDialogFragment.show(activity, "rename");
+                }
+            });
+
+            AppCompatImageButton B_FAVORITE = new AppCompatImageButton(activity);
+            if(categoryName.equals(Category.favoriteCategoryName)) {
+                B_FAVORITE.setImageResource(R.drawable.baseline_favorite_24);
+            }
+            else {
+                B_FAVORITE.setImageResource(R.drawable.baseline_favorite_border_24);
+            }
+            B_FAVORITE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!categoryName.equals(Category.favoriteCategoryName)) {
+                        // Register new favorite.
+                        Category.favoriteCategory(categoryName);
+                        updateLayout();
+                        activity.updateLayout();
+                    }
                 }
             });
 
@@ -160,6 +187,7 @@ public class ChooseCategoryDialog extends BaseDialog {
             TableRow TR = new TableRow(activity);
             TR.addView(B_DELETE);
             TR.addView(B_RENAME);
+            TR.addView(B_FAVORITE);
             TR.addView(B, TRP);
             table.addView(TR);
         }

@@ -104,7 +104,12 @@ public class MainActivity extends BaseActivity {
 
     public void updateLayout() {
         Toolbar toolbar = findViewById(R.id.main_toolbar);
-        toolbar.setSubtitle(Category.currentCategoryName);
+
+        String subtitle = Category.currentCategoryName;
+        if(Category.currentCategoryName.equals(Category.favoriteCategoryName)) {
+            subtitle = "♥ " + subtitle;
+        }
+        toolbar.setSubtitle(subtitle);
 
         ImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemove) {
