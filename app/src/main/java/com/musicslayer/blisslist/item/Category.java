@@ -27,6 +27,7 @@ public class Category {
     public static void addCategory(String categoryName) {
         // Assume the category name doesn't already exist.
         categoryNames.add(categoryName);
+        HashMapUtil.putValueInMap(map_items, categoryName, new Item());
 
         new CategoryList().saveAllData();
     }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.musicslayer.blisslist.app.App;
 import com.musicslayer.blisslist.data.persistent.app.CategoryList;
-import com.musicslayer.blisslist.data.persistent.app.ItemList;
 import com.musicslayer.blisslist.util.ToastUtil;
 
 // This Activity class only exists for initialization code, not to be seen by the user.
@@ -18,7 +17,6 @@ public class InitialActivity extends BaseActivity {
     }
 
     public void initialize() {
-        new ItemList().loadAllData();
         new CategoryList().loadAllData();
 
         ToastUtil.initialize();
