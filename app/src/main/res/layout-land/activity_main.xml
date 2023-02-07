@@ -110,7 +110,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/main_halfWayHorizontal"
-        app:layout_constraintTop_toBottomOf="@+id/main_HaveText">
+        app:layout_constraintTop_toBottomOf="@+id/main_haveText">
 
         <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/main_haveFlexboxLayout"
