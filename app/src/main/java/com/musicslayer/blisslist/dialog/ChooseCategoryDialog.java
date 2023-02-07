@@ -3,6 +3,7 @@ package com.musicslayer.blisslist.dialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -172,6 +173,7 @@ public class ChooseCategoryDialog extends BaseDialog {
 
             AppCompatButton B = new AppCompatButton(activity);
             B.setText(categoryName);
+            B.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_category_24, 0, 0, 0);
             B.setOnClickListener(new View.OnClickListener() {
                 @Override
