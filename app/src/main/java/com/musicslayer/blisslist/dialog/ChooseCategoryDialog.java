@@ -9,6 +9,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.item.Category;
@@ -46,7 +47,6 @@ public class ChooseCategoryDialog extends BaseDialog {
                         ToastUtil.showToast("category_name_used");
                     }
                     else {
-                        //PersistentUserDataStore.getInstance(ChartPortfolio.class).addPortfolio(new ChartPortfolioObj(name));
                         Category.addCategory(name);
                         updateLayout();
                     }
@@ -108,6 +108,27 @@ public class ChooseCategoryDialog extends BaseDialog {
         Collections.sort(categoryNames, Comparator.comparing(String::toLowerCase));
 
         for(String categoryName : categoryNames) {
+            AppCompatImageButton B_DELETE = new AppCompatImageButton(activity);
+            B_DELETE.setImageResource(R.drawable.baseline_delete_24);
+            B_DELETE.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentDeleteCategoryName = categoryName;
+                    confirmDeleteCategoryDialogFragment.show(activity, "delete");
+                }
+            });
+
+            AppCompatImageButton B_RENAME = new AppCompatImageButton(activity);
+            B_RENAME.setImageResource(R.drawable.baseline_edit_24);
+            B_RENAME.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentRenameCategoryName = categoryName;
+                    renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
+                    renameCategoryDialogFragment.show(activity, "rename");
+                }
+            });
+
             AppCompatButton B = new AppCompatButton(activity);
             B.setText(categoryName);
             B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_category_24, 0, 0, 0);
@@ -120,36 +141,13 @@ public class ChooseCategoryDialog extends BaseDialog {
                 }
             });
 
-            AppCompatButton B_DELETE = new AppCompatButton(activity);
-            B_DELETE.setText("Delete");
-            B_DELETE.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_delete_24, 0, 0, 0);
-            B_DELETE.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentDeleteCategoryName = categoryName;
-                    confirmDeleteCategoryDialogFragment.show(activity, "delete");
-                }
-            });
-
-            AppCompatButton B_RENAME = new AppCompatButton(activity);
-            B_RENAME.setText("Rename");
-            B_RENAME.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_edit_24, 0, 0, 0);
-            B_RENAME.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    currentRenameCategoryName = categoryName;
-                    renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
-                    renameCategoryDialogFragment.show(activity, "rename");
-                }
-            });
-
-            TableRow.LayoutParams TRP = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            TableRow.LayoutParams TRP = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
             TRP.setMargins(80,0,0,0);
 
             TableRow TR = new TableRow(activity);
-            TR.addView(B);
-            TR.addView(B_DELETE, TRP);
+            TR.addView(B_DELETE);
             TR.addView(B_RENAME);
+            TR.addView(B, TRP);
             table.addView(TR);
         }
     }

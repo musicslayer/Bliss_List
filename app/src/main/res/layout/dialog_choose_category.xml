@@ -26,18 +26,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar" />
 
-    <ScrollView
-        android:id="@+id/choose_category_dialog_scrollView"
+    <TableLayout
+        android:id="@+id/choose_category_dialog_tableLayout"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_addButton">
-
-        <TableLayout
-            android:id="@+id/choose_category_dialog_tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_addButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@ public class RenameCategoryDialog extends BaseDialog {
         setContentView(R.layout.dialog_rename_category);
 
         TextView T = findViewById(R.id.rename_category_dialog_currentTextView);
-        T.setText("Current Portfolio Name: " + oldName);
+        T.setText("Current Category Name: " + oldName);
 
         final PlainTextEditText E = findViewById(R.id.rename_category_dialog_editText);
 
