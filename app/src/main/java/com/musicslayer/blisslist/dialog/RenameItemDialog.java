@@ -3,8 +3,9 @@ package com.musicslayer.blisslist.dialog;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.item.Category;
@@ -28,7 +29,7 @@ public class RenameItemDialog extends BaseDialog {
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_rename_item);
 
-        TextView T = findViewById(R.id.rename_item_dialog_currentTextView);
+        AppCompatTextView T = findViewById(R.id.rename_item_dialog_currentTextView);
         T.setText("Current Item Name: " + oldName);
 
         final PlainTextEditText E = findViewById(R.id.rename_item_dialog_editText);
@@ -37,7 +38,7 @@ public class RenameItemDialog extends BaseDialog {
             E.setTextString(oldName);
         }
 
-        Button B_RENAME = findViewById(R.id.rename_item_dialog_renameButton);
+        AppCompatButton B_RENAME = findViewById(R.id.rename_item_dialog_renameButton);
         B_RENAME.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isValid = E.test();

@@ -4,11 +4,12 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -131,12 +132,6 @@ public class MainActivity extends BaseActivity {
         }
         toolbar.setSubtitle(subtitle);
 
-        TextView needText = findViewById(R.id.main_needText);
-        TextView haveText = findViewById(R.id.main_haveText);
-
-        needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
-        haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
-
         AppCompatImageButton editButton = findViewById(R.id.main_editButton);
         if(isEditMode) {
             editButton.setColorFilter(Color.RED);
@@ -178,6 +173,21 @@ public class MainActivity extends BaseActivity {
             }
         });
         renameItemDialogFragment.restoreListeners(this, "rename");
+
+        if("list".equals(Category.currentCategory.style)) {
+            updateLayoutList(confirmDeleteItemDialogFragment, renameItemDialogFragment);
+        }
+        else {
+            updateLayoutTodo(confirmDeleteItemDialogFragment, renameItemDialogFragment);
+        }
+    }
+
+    public void updateLayoutList(BaseDialogFragment confirmDeleteItemDialogFragment, BaseDialogFragment renameItemDialogFragment) {
+        AppCompatTextView needText = findViewById(R.id.main_needText);
+        AppCompatTextView haveText = findViewById(R.id.main_haveText);
+
+        needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
+        haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
 
         FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
         FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
@@ -224,6 +234,58 @@ public class MainActivity extends BaseActivity {
             else {
                 flexboxLayoutNeed.addView(B_ITEM);
             }
+        }
+    }
+
+    public void updateLayoutTodo(BaseDialogFragment confirmDeleteItemDialogFragment, BaseDialogFragment renameItemDialogFragment) {
+        AppCompatTextView needText = findViewById(R.id.main_needText);
+        AppCompatTextView haveText = findViewById(R.id.main_haveText);
+
+        needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
+        haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
+
+        FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
+        FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
+
+        flexboxLayoutNeed.removeAllViews();
+        flexboxLayoutHave.removeAllViews();
+
+        ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
+        Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
+
+        flexboxLayoutHave.setVisibility(View.GONE);
+        haveText.setVisibility(View.GONE);
+        for(String itemName : itemNames) {
+            Item item = Category.currentCategory.getItem(itemName);
+
+            AppCompatCheckBox B_ITEM = new AppCompatCheckBox(this);
+            B_ITEM.setChecked(item.isHave);
+            B_ITEM.setText(itemName);
+            B_ITEM.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(isEditMode) {
+                        currentRenameItemName = itemName;
+                        renameItemDialogFragment.updateArguments(RenameItemDialog.class, itemName);
+                        renameItemDialogFragment.show(MainActivity.this, "rename");
+                    }
+                    else if(isRemoveMode) {
+                        currentDeleteItemName = itemName;
+                        confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, itemName);
+                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete");
+                    }
+                    else {
+                        Category.currentCategory.toggleItem(itemName);
+                    }
+
+                    isEditMode = false;
+                    isRemoveMode = false;
+
+                    updateLayout();
+                }
+            });
+
+            flexboxLayoutNeed.addView(B_ITEM);
         }
     }
 

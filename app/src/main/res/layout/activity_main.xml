@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_add_box_24" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/main_needText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/main_haveText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

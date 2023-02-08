@@ -3,7 +3,8 @@ package com.musicslayer.blisslist.dialog;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.item.Category;
@@ -26,7 +27,7 @@ public class AddItemDialog extends BaseDialog {
 
         final PlainTextEditText E = findViewById(R.id.add_item_dialog_editText);
 
-        Button B_CREATE = findViewById(R.id.add_item_dialog_createButton);
+        AppCompatButton B_CREATE = findViewById(R.id.add_item_dialog_createButton);
         B_CREATE.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isValid = E.test();

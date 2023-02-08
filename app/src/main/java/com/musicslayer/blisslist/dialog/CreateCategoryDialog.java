@@ -3,9 +3,10 @@ package com.musicslayer.blisslist.dialog;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.item.Category;
@@ -30,7 +31,7 @@ public class CreateCategoryDialog extends BaseDialog {
         setContentView(R.layout.dialog_create_category);
 
         RadioGroup radioGroup = findViewById(R.id.create_category_dialog_radioGroup);
-        RadioButton[] rb = new RadioButton[3];
+        AppCompatRadioButton[] rb = new AppCompatRadioButton[3];
 
         rb[0] = findViewById(R.id.create_category_dialog_hardcodedRadioButton);
         rb[0].setOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,7 @@ public class CreateCategoryDialog extends BaseDialog {
 
         final PlainTextEditText E = findViewById(R.id.create_category_dialog_editText);
 
-        Button B_CREATE = findViewById(R.id.create_category_dialog_createButton);
+        AppCompatButton B_CREATE = findViewById(R.id.create_category_dialog_createButton);
         B_CREATE.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean isValid = E.test();
