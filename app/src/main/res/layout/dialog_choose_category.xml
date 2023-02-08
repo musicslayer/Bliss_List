@@ -18,34 +18,43 @@
         app:title="Choose Category" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/choose_category_dialog_addButton"
+        android:id="@+id/choose_category_dialog_editButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
-        app:srcCompat="@drawable/baseline_add_box_24" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/choose_category_dialog_toolbar"
+        app:layout_constraintEnd_toEndOf="@+id/choose_category_dialog_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_edit_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/choose_category_dialog_removeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/choose_category_dialog_addButton"
-        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
+        android:layout_marginEnd="-16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/choose_category_dialog_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/choose_category_dialog_editButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_delete_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/choose_category_dialog_editButton"
+        android:id="@+id/choose_category_dialog_addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/choose_category_dialog_removeButton"
-        app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_toolbar"
-        app:srcCompat="@drawable/baseline_edit_24" />
+        android:layout_marginEnd="-16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/choose_category_dialog_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/choose_category_dialog_removeButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_add_box_24" />
 
     <TableLayout
         android:id="@+id/choose_category_dialog_tableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_category_dialog_addButton" />
 
