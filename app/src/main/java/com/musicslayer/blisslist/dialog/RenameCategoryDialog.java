@@ -33,6 +33,10 @@ public class RenameCategoryDialog extends BaseDialog {
 
         final PlainTextEditText E = findViewById(R.id.rename_category_dialog_editText);
 
+        if(savedInstanceState == null) {
+            E.setTextString(oldName);
+        }
+
         Button B_RENAME = findViewById(R.id.rename_category_dialog_renameButton);
         B_RENAME.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

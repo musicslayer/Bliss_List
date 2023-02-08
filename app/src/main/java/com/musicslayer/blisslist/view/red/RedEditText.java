@@ -33,6 +33,10 @@ abstract public class RedEditText extends AppCompatEditText {
         return E.toString();
     }
 
+    public void setTextString(String s) {
+        this.setText(s);
+    }
+
     public void setMaxLength(int maxLength) {
         InputFilter[] filterArray = new InputFilter[1];
         filterArray[0] = new InputFilter.LengthFilter(maxLength);

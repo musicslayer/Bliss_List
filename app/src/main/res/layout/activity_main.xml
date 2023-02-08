@@ -18,7 +18,7 @@
         app:title="@string/app_title" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/main_removeButton"
+        android:id="@+id/main_categoryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -27,7 +27,29 @@
         app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
         app:layout_constraintEnd_toEndOf="@+id/main_toolbar"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_remove_circle_outline_24" />
+        app:srcCompat="@drawable/baseline_category_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/main_editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/main_categoryButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_edit_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/main_removeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
+        app:layout_constraintEnd_toStartOf="@id/main_editButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_delete_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/main_addButton"
@@ -38,18 +60,7 @@
         app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
         app:layout_constraintEnd_toStartOf="@id/main_removeButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_add_circle_outline_24" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/main_categoryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="-16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="@id/main_toolbar"
-        app:layout_constraintEnd_toStartOf="@id/main_addButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_category_24" />
+        app:srcCompat="@drawable/baseline_add_box_24" />
 
     <TextView
         android:id="@+id/main_needText"
