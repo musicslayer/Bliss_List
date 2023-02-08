@@ -23,8 +23,8 @@ import java.util.Comparator;
 public class ChooseCategoryDialog extends BaseDialog {
     String currentDeleteCategoryName;
     String currentRenameCategoryName;
-    boolean isEdit;
-    boolean isRemove;
+    boolean isEditMode;
+    boolean isRemoveMode;
 
     public String user_CATEGORY;
 
@@ -46,7 +46,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                 if(((CreateCategoryDialog)dialog).isComplete) {
                     String name = ((CreateCategoryDialog)dialog).user_NAME;
 
-                    if(Category.isSaved(name)) {
+                    if(Category.isCategorySaved(name)) {
                         ToastUtil.showToast("category_name_used");
                     }
                     else {
@@ -62,8 +62,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         B_ADD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isEdit = false;
-                isRemove = false;
+                isEditMode = false;
+                isRemoveMode = false;
 
                 updateLayout();
 
@@ -75,8 +75,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         B_REMOVE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isEdit = false;
-                isRemove = !isRemove;
+                isEditMode = false;
+                isRemoveMode = !isRemoveMode;
 
                 updateLayout();
             }
@@ -86,8 +86,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         B_EDIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isEdit = !isEdit;
-                isRemove = false;
+                isEditMode = !isEditMode;
+                isRemoveMode = false;
 
                 updateLayout();
             }
@@ -98,7 +98,7 @@ public class ChooseCategoryDialog extends BaseDialog {
 
     public void updateLayout() {
         AppCompatImageButton B_REMOVE = findViewById(R.id.choose_category_dialog_removeButton);
-        if(isRemove) {
+        if(isRemoveMode) {
             B_REMOVE.setColorFilter(Color.RED);
         }
         else {
@@ -106,7 +106,7 @@ public class ChooseCategoryDialog extends BaseDialog {
         }
 
         AppCompatImageButton B_EDIT = findViewById(R.id.choose_category_dialog_editButton);
-        if(isEdit) {
+        if(isEditMode) {
             B_EDIT.setColorFilter(Color.RED);
         }
         else {
@@ -138,19 +138,11 @@ public class ChooseCategoryDialog extends BaseDialog {
                     if(newName.equals(currentRenameCategoryName)) {
                         ToastUtil.showToast("category_name_cannot_be_same");
                     }
-                    else if(Category.isSaved(newName)) {
+                    else if(Category.isCategorySaved(newName)) {
                         ToastUtil.showToast("category_name_used");
                     }
                     else {
                         Category.renameCategory(currentRenameCategoryName, newName);
-
-                        if(currentRenameCategoryName.equals(Category.currentCategoryName)) {
-                            Category.currentCategoryName = newName;
-                        }
-
-                        if(currentRenameCategoryName.equals(Category.favoriteCategoryName)) {
-                            Category.favoriteCategory(newName);
-                        }
 
                         updateLayout();
                         activity.updateLayout();
@@ -160,12 +152,14 @@ public class ChooseCategoryDialog extends BaseDialog {
         });
         renameCategoryDialogFragment.restoreListeners(activity, "rename");
 
-        ArrayList<String> categoryNames = new ArrayList<>(Category.categoryNames);
+        ArrayList<String> categoryNames = new ArrayList<>(Category.map_categories.keySet());
         Collections.sort(categoryNames, Comparator.comparing(String::toLowerCase));
 
         for(String categoryName : categoryNames) {
+            Category category = Category.getCategory(categoryName);
+
             AppCompatImageButton B_FAVORITE = new AppCompatImageButton(activity);
-            if(categoryName.equals(Category.favoriteCategoryName)) {
+            if(category.equals(Category.favoriteCategory)) {
                 B_FAVORITE.setImageResource(R.drawable.baseline_favorite_24);
             }
             else {
@@ -174,11 +168,11 @@ public class ChooseCategoryDialog extends BaseDialog {
             B_FAVORITE.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!categoryName.equals(Category.favoriteCategoryName)) {
-                        isEdit = false;
-                        isRemove = false;
+                    if(!category.equals(Category.favoriteCategory)) {
+                        isEditMode = false;
+                        isRemoveMode = false;
 
-                        Category.favoriteCategory(categoryName);
+                        Category.makeFavoriteCategory(categoryName);
 
                         updateLayout();
                         activity.updateLayout();
@@ -187,8 +181,9 @@ public class ChooseCategoryDialog extends BaseDialog {
             });
 
             AppCompatButton B = new AppCompatButton(activity);
-            if(Category.getItem(categoryName).numNeed() > 0) {
-                B.setText("(" + Category.getItem(categoryName).numNeed() + ") " + categoryName);
+            int numNeed = category.numNeed();
+            if(numNeed > 0) {
+                B.setText("(" + numNeed + ") " + categoryName);
             }
             else {
                 B.setText("✓ " + categoryName);
@@ -198,19 +193,19 @@ public class ChooseCategoryDialog extends BaseDialog {
             B.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(isEdit) {
+                    if(isEditMode) {
                         currentRenameCategoryName = categoryName;
                         renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
                         renameCategoryDialogFragment.show(activity, "rename");
                     }
-                    else if(isRemove) {
+                    else if(isRemoveMode) {
                         if(Category.numCategories() == 1) {
                             ToastUtil.showToast("only_category_cannot_be_deleted");
                         }
-                        else if(categoryName.equals(Category.currentCategoryName)) {
+                        else if(category.equals(Category.currentCategory)) {
                             ToastUtil.showToast("current_category_cannot_be_deleted");
                         }
-                        else if(categoryName.equals(Category.favoriteCategoryName)) {
+                        else if(category.equals(Category.favoriteCategory)) {
                             ToastUtil.showToast("favorite_category_cannot_be_deleted");
                         }
                         else {
@@ -225,8 +220,8 @@ public class ChooseCategoryDialog extends BaseDialog {
                         dismiss();
                     }
 
-                    isEdit = false;
-                    isRemove = false;
+                    isEditMode = false;
+                    isRemoveMode = false;
 
                     updateLayout();
                 }
@@ -246,8 +241,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         Bundle bundle = super.onSaveInstanceState();
         bundle.putString("currentDeleteCategoryName", currentDeleteCategoryName);
         bundle.putString("currentRenameCategoryName", currentRenameCategoryName);
-        bundle.putBoolean("isEdit", isEdit);
-        bundle.putBoolean("isRemove", isRemove);
+        bundle.putBoolean("isEditMode", isEditMode);
+        bundle.putBoolean("isRemoveMode", isRemoveMode);
         return bundle;
     }
 
@@ -256,8 +251,8 @@ public class ChooseCategoryDialog extends BaseDialog {
         if(bundle != null) {
             currentDeleteCategoryName = bundle.getString("currentDeleteCategoryName");
             currentRenameCategoryName = bundle.getString("currentRenameCategoryName");
-            isEdit = bundle.getBoolean("isEdit");
-            isRemove = bundle.getBoolean("isRemove");
+            isEditMode = bundle.getBoolean("isEditMode");
+            isRemoveMode = bundle.getBoolean("isRemoveMode");
         }
         super.onRestoreInstanceState(bundle);
     }

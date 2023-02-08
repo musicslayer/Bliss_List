@@ -4,11 +4,11 @@ import android.content.SharedPreferences;
 
 import com.musicslayer.blisslist.data.bridge.DataBridge;
 import com.musicslayer.blisslist.item.Category;
-import com.musicslayer.blisslist.item.Item;
 import com.musicslayer.blisslist.util.HashMapUtil;
 import com.musicslayer.blisslist.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CategoryList {
     public String getSharedPreferencesKey() {
@@ -21,40 +21,34 @@ public class CategoryList {
 
         editor.clear();
 
-        ArrayList<String> categoryNames = Category.categoryNames;
+        ArrayList<Category> categories = new ArrayList<>(Category.map_categories.values());
 
-        int size = categoryNames.size();
+        int size = categories.size();
         editor.putInt("category_size", size);
 
         for(int i = 0; i < size; i++) {
-            String categoryName = categoryNames.get(i);
-            editor.putString("category_name_" + i, categoryName);
-
-            Item item = Category.getItem(categoryName);
-            editor.putString("category_item_" + i, DataBridge.serialize(item, Item.class));
+            Category category = categories.get(i);
+            editor.putString("category_" + i, DataBridge.serialize(category, Category.class));
         }
 
-        editor.putString("category_favorite", Category.favoriteCategoryName);
+        editor.putString("category_favorite_name", Category.favoriteCategory.categoryName);
 
         editor.apply();
     }
 
     public void loadAllData() {
-        Category.reset();
+        Category.map_categories = new HashMap<>();
 
         SharedPreferences sharedPreferences = SharedPreferencesUtil.getSharedPreferences(getSharedPreferencesKey());
 
         int size = sharedPreferences.getInt("category_size", 0);
 
         for(int i = 0; i < size; i++) {
-            String categoryName = sharedPreferences.getString("category_name_" + i, "?");
-            Category.addCategoryNoSave(categoryName);
-
-            Item item = DataBridge.deserialize(sharedPreferences.getString("category_item_" + i, "?"), Item.class);
-
-            HashMapUtil.putValueInMap(Category.map_items, categoryName, item);
+            Category category = DataBridge.deserialize(sharedPreferences.getString("category_" + i, "?"), Category.class);
+            HashMapUtil.putValueInMap(Category.map_categories, category.categoryName, category);
         }
 
-        Category.favoriteCategoryName = sharedPreferences.getString("category_favorite", "?");
+        String favoriteCategoryName = sharedPreferences.getString("category_favorite_name", "?");
+        Category.favoriteCategory = HashMapUtil.getValueFromMap(Category.map_categories, favoriteCategoryName);
     }
 }

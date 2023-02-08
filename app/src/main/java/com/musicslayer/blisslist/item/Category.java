@@ -1,80 +1,154 @@
 package com.musicslayer.blisslist.item;
 
+import com.musicslayer.blisslist.data.bridge.DataBridge;
 import com.musicslayer.blisslist.data.persistent.app.CategoryList;
 import com.musicslayer.blisslist.util.HashMapUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Category {
-    public static String currentCategoryName;
-    public static String favoriteCategoryName;
-    public static ArrayList<String> categoryNames = new ArrayList<>();
-    public static HashMap<String, Item> map_items = new HashMap<>();
+public class Category implements DataBridge.SerializableToJSON {
+    public static HashMap<String, Category> map_categories = new HashMap<>();
+    public static Category currentCategory;
+    public static Category favoriteCategory;
+
+    public String categoryName;
+    public HashMap<String, Item> map_items = new HashMap<>();
+
+    @Override
+    public void serializeToJSON(DataBridge.Writer o) throws IOException {
+        o.beginObject()
+                .serialize("!V!", "1", String.class)
+                .serialize("categoryName", categoryName, String.class)
+                .serializeHashMap("map_items", map_items, String.class, Item.class)
+                .endObject();
+    }
+
+    public static Category deserializeFromJSON(DataBridge.Reader o) throws IOException {
+        o.beginObject();
+
+        String version = o.deserialize("!V!", String.class);
+        Category category = new Category();
+
+        if("1".equals(version)) {
+            String categoryName = o.deserialize("categoryName", String.class);
+            HashMap<String, Item> map_items = o.deserializeHashMap("map_items", String.class, Item.class);
+            o.endObject();
+
+            category.categoryName = categoryName;
+            category.map_items = map_items;
+        }
+        else {
+            throw new IllegalStateException("version = " + version);
+        }
+
+        return category;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Category) && categoryName.equals(((Category) other).categoryName);
+    }
 
     public static void createDefaultIfNeeded() {
-        if(Category.numCategories() == 0) {
-            addCategory("Default");
-            favoriteCategory("Default");
+        if(map_categories.isEmpty()) {
+            addCategoryNoSave("Default");
+            makeFavoriteCategory("Default");
         }
     }
 
-    public static Item getItem(String categoryName) {
-        return HashMapUtil.getValueFromMap(map_items, categoryName);
+    public int numNeed() {
+        return Item.numNeed(new ArrayList<>(map_items.values()));
+    }
+
+    public int numHave() {
+        return Item.numHave(new ArrayList<>(map_items.values()));
+    }
+
+    public static boolean isCategorySaved(String categoryName) {
+        return getCategory(categoryName) != null;
+    }
+
+    public static Category getCategory(String categoryName) {
+        return HashMapUtil.getValueFromMap(map_categories, categoryName);
     }
 
     public static int numCategories() {
-        return categoryNames.size();
-    }
-
-    public static boolean isSaved(String categoryName) {
-        return categoryNames.contains(categoryName);
+        return map_categories.size();
     }
 
     public static void addCategoryNoSave(String categoryName) {
-        // Assume the category name doesn't already exist.
-        categoryNames.add(categoryName);
-        HashMapUtil.putValueInMap(map_items, categoryName, new Item());
+        Category category = new Category();
+        category.categoryName = categoryName;
+        HashMapUtil.putValueInMap(map_categories, categoryName, category);
     }
 
     public static void addCategory(String categoryName) {
-        // Assume the category name doesn't already exist.
-        categoryNames.add(categoryName);
-        HashMapUtil.putValueInMap(map_items, categoryName, new Item());
-
-        new CategoryList().saveAllData();
-    }
-
-    public static void favoriteCategory(String categoryName) {
-        // Assume the category name already exists.
-        favoriteCategoryName = categoryName;
+        addCategoryNoSave(categoryName);
 
         new CategoryList().saveAllData();
     }
 
     public static void removeCategory(String categoryName) {
-        // Assume the category name already exists.
-        categoryNames.remove(categoryName);
-        HashMapUtil.removeValueFromMap(map_items, categoryName);
+        HashMapUtil.removeValueFromMap(map_categories, categoryName);
 
         new CategoryList().saveAllData();
     }
 
     public static void renameCategory(String oldCategoryName, String newCategoryName) {
-        // Assume the category name already exists.
-        Item item = getItem(oldCategoryName);
+        Category category = getCategory(oldCategoryName);
+        category.categoryName = newCategoryName;
 
-        categoryNames.remove(oldCategoryName);
-        categoryNames.add(newCategoryName);
-
-        HashMapUtil.removeValueFromMap(map_items, oldCategoryName);
-        HashMapUtil.putValueInMap(map_items, newCategoryName, item);
+        HashMapUtil.removeValueFromMap(map_categories, oldCategoryName);
+        HashMapUtil.putValueInMap(map_categories, newCategoryName, category);
 
         new CategoryList().saveAllData();
     }
 
-    public static void reset() {
-        categoryNames = new ArrayList<>();
-        map_items = new HashMap<>();
+    public static void makeCurrentCategory(String categoryName) {
+        currentCategory = getCategory(categoryName);
+
+        // We do not save which category is current.
+    }
+
+    public static void makeFavoriteCategory(String categoryName) {
+        favoriteCategory = getCategory(categoryName);
+
+        new CategoryList().saveAllData();
+    }
+
+    public boolean isItemSaved(String itemName) {
+        return getItem(itemName) != null;
+    }
+
+    public Item getItem(String itemName) {
+        return HashMapUtil.getValueFromMap(map_items, itemName);
+    }
+
+    public void addItemNoSave(String itemName, boolean isHave) {
+        Item item = new Item();
+        item.itemName = itemName;
+        item.isHave = isHave;
+        HashMapUtil.putValueInMap(map_items, itemName, item);
+    }
+
+    public void addItem(String itemName, boolean isHave) {
+        addItemNoSave(itemName, isHave);
+
+        new CategoryList().saveAllData();
+    }
+
+    public void removeItem(String itemName) {
+        HashMapUtil.removeValueFromMap(map_items, itemName);
+
+        new CategoryList().saveAllData();
+    }
+
+    public void toggleItem(String itemName) {
+        Item item = getItem(itemName);
+        item.isHave = !item.isHave;
+
+        new CategoryList().saveAllData();
     }
 }

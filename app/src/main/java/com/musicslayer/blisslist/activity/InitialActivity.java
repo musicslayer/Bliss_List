@@ -32,7 +32,7 @@ public class InitialActivity extends BaseActivity {
         Category.createDefaultIfNeeded();
 
         // When first loading the app, start with the user's favorite category.
-        Category.currentCategoryName = Category.favoriteCategoryName;
+        Category.currentCategory = Category.favoriteCategory;
 
         // Save all the stored data right after loading it.
         // This makes sure the stored data is initialized and helps remove data with outdated versions.
