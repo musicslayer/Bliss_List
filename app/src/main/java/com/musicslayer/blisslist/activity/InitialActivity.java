@@ -8,8 +8,6 @@ import com.musicslayer.blisslist.data.persistent.app.CategoryList;
 import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.ToastUtil;
 
-// TODO "Export" feature.
-
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
     @Override
