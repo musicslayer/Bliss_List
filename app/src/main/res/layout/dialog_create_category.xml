@@ -35,7 +35,7 @@
             android:id="@+id/create_category_dialog_foundRadioButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To-Do" />
+            android:text="To Do" />
     </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatTextView

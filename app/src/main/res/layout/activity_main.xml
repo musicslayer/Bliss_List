@@ -63,6 +63,30 @@
         app:srcCompat="@drawable/baseline_add_box_24" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/main_todoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+        android:text="To Do" />
+
+    <ScrollView
+        android:id="@+id/main_todoScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_todoText">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/main_todoLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/main_needText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

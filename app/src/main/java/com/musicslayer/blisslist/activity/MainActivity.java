@@ -4,12 +4,14 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -185,15 +187,27 @@ public class MainActivity extends BaseActivity {
     public void updateLayoutList(BaseDialogFragment confirmDeleteItemDialogFragment, BaseDialogFragment renameItemDialogFragment) {
         AppCompatTextView needText = findViewById(R.id.main_needText);
         AppCompatTextView haveText = findViewById(R.id.main_haveText);
+        AppCompatTextView todoText = findViewById(R.id.main_todoText);
+
+        ScrollView needScrollView = findViewById(R.id.main_needScrollView);
+        ScrollView haveScrollView = findViewById(R.id.main_haveScrollView);
+        ScrollView todoScrollView = findViewById(R.id.main_todoScrollView);
+
+        needText.setVisibility(View.VISIBLE);
+        haveText.setVisibility(View.VISIBLE);
+        todoText.setVisibility(View.GONE);
+        needScrollView.setVisibility(View.VISIBLE);
+        haveScrollView.setVisibility(View.VISIBLE);
+        todoScrollView.setVisibility(View.GONE);
 
         needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
         haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
 
-        FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
-        FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
+        FlexboxLayout needFlexboxLayout = findViewById(R.id.main_needFlexboxLayout);
+        FlexboxLayout haveFlexboxLayout = findViewById(R.id.main_haveFlexboxLayout);
 
-        flexboxLayoutNeed.removeAllViews();
-        flexboxLayoutHave.removeAllViews();
+        needFlexboxLayout.removeAllViews();
+        haveFlexboxLayout.removeAllViews();
 
         ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
         Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
@@ -229,10 +243,10 @@ public class MainActivity extends BaseActivity {
             });
 
             if(item.isHave) {
-                flexboxLayoutHave.addView(B_ITEM);
+                haveFlexboxLayout.addView(B_ITEM);
             }
             else {
-                flexboxLayoutNeed.addView(B_ITEM);
+                needFlexboxLayout.addView(B_ITEM);
             }
         }
     }
@@ -240,21 +254,27 @@ public class MainActivity extends BaseActivity {
     public void updateLayoutTodo(BaseDialogFragment confirmDeleteItemDialogFragment, BaseDialogFragment renameItemDialogFragment) {
         AppCompatTextView needText = findViewById(R.id.main_needText);
         AppCompatTextView haveText = findViewById(R.id.main_haveText);
+        AppCompatTextView todoText = findViewById(R.id.main_todoText);
 
-        needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
-        haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
+        ScrollView needScrollView = findViewById(R.id.main_needScrollView);
+        ScrollView haveScrollView = findViewById(R.id.main_haveScrollView);
+        ScrollView todoScrollView = findViewById(R.id.main_todoScrollView);
 
-        FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
-        FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
+        needText.setVisibility(View.GONE);
+        haveText.setVisibility(View.GONE);
+        todoText.setVisibility(View.VISIBLE);
+        needScrollView.setVisibility(View.GONE);
+        haveScrollView.setVisibility(View.GONE);
+        todoScrollView.setVisibility(View.VISIBLE);
 
-        flexboxLayoutNeed.removeAllViews();
-        flexboxLayoutHave.removeAllViews();
+        todoText.setText("To Do (" + Category.currentCategory.numNeed() + ")");
+
+        LinearLayoutCompat todoLinearLayout = findViewById(R.id.main_todoLinearLayout);
+        todoLinearLayout.removeAllViews();
 
         ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
         Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
 
-        flexboxLayoutHave.setVisibility(View.GONE);
-        haveText.setVisibility(View.GONE);
         for(String itemName : itemNames) {
             Item item = Category.currentCategory.getItem(itemName);
 
@@ -285,7 +305,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            flexboxLayoutNeed.addView(B_ITEM);
+            todoLinearLayout.addView(B_ITEM);
         }
     }
 
