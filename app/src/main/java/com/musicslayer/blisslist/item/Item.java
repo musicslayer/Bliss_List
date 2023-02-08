@@ -42,6 +42,26 @@ public class Item implements DataBridge.SerializableToJSON {
         return item;
     }
 
+    public int numNeed() {
+        int count = 0;
+        for(String itemName : itemNames) {
+            if(!isHave(itemName)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int numHave() {
+        int count = 0;
+        for(String itemName : itemNames) {
+            if(isHave(itemName)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public boolean isSaved(String item) {
         return itemNames.contains(item);
     }

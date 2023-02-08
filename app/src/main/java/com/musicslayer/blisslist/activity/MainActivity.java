@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
@@ -109,6 +110,12 @@ public class MainActivity extends BaseActivity {
             subtitle = "♥ " + subtitle;
         }
         toolbar.setSubtitle(subtitle);
+
+        TextView needText = findViewById(R.id.main_needText);
+        TextView haveText = findViewById(R.id.main_haveText);
+
+        needText.setText("Need (" + Category.getItem(Category.currentCategoryName).numNeed() + ")");
+        haveText.setText("Have (" + Category.getItem(Category.currentCategoryName).numHave() + ")");
 
         AppCompatImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemove) {

@@ -187,7 +187,12 @@ public class ChooseCategoryDialog extends BaseDialog {
             });
 
             AppCompatButton B = new AppCompatButton(activity);
-            B.setText(categoryName);
+            if(Category.getItem(categoryName).numNeed() > 0) {
+                B.setText("(" + Category.getItem(categoryName).numNeed() + ") " + categoryName);
+            }
+            else {
+                B.setText("✓ " + categoryName);
+            }
             B.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
             B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_category_24, 0, 0, 0);
             B.setOnClickListener(new View.OnClickListener() {
