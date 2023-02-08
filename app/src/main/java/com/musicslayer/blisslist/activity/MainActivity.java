@@ -186,6 +186,7 @@ public class MainActivity extends BaseActivity {
         ArrayList<Item> items = new ArrayList<>(Category.currentCategory.map_items.values());
         for(Item item : items) {
             AppCompatButton B_ITEM = new AppCompatButton(this);
+            B_ITEM.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_forward_24, 0, 0, 0);
             B_ITEM.setText(item.itemName);
             B_ITEM.setOnClickListener(new View.OnClickListener() {
                 @Override
