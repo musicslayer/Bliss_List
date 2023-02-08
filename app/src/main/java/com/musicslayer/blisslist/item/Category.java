@@ -145,6 +145,16 @@ public class Category implements DataBridge.SerializableToJSON {
         new CategoryList().saveAllData();
     }
 
+    public void renameItem(String oldItemName, String newItemName) {
+        Item item = getItem(oldItemName);
+        item.itemName = newItemName;
+
+        HashMapUtil.removeValueFromMap(map_items, oldItemName);
+        HashMapUtil.putValueInMap(map_items, newItemName, item);
+
+        new CategoryList().saveAllData();
+    }
+
     public void toggleItem(String itemName) {
         Item item = getItem(itemName);
         item.isHave = !item.isHave;

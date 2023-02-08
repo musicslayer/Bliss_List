@@ -92,20 +92,20 @@ public class ChooseCategoryDialog extends BaseDialog {
     }
 
     public void updateLayout() {
-        AppCompatImageButton B_REMOVE = findViewById(R.id.choose_category_dialog_removeButton);
-        if(isRemoveMode) {
-            B_REMOVE.setColorFilter(Color.RED);
-        }
-        else {
-            B_REMOVE.clearColorFilter();
-        }
-
         AppCompatImageButton B_EDIT = findViewById(R.id.choose_category_dialog_editButton);
         if(isEditMode) {
             B_EDIT.setColorFilter(Color.RED);
         }
         else {
             B_EDIT.clearColorFilter();
+        }
+
+        AppCompatImageButton B_REMOVE = findViewById(R.id.choose_category_dialog_removeButton);
+        if(isRemoveMode) {
+            B_REMOVE.setColorFilter(Color.RED);
+        }
+        else {
+            B_REMOVE.clearColorFilter();
         }
 
         TableLayout table = findViewById(R.id.choose_category_dialog_tableLayout);

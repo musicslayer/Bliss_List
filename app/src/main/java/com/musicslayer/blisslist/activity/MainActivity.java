@@ -16,12 +16,17 @@ import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
 import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
+import com.musicslayer.blisslist.dialog.ConfirmDeleteItemDialog;
+import com.musicslayer.blisslist.dialog.RenameItemDialog;
 import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.item.Item;
 
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
+    String currentDeleteItemName;
+    String currentRenameItemName;
+    public boolean isEditMode;
     public boolean isRemoveMode;
 
     @Override
@@ -35,32 +40,6 @@ public class MainActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-
-        BaseDialogFragment chooseCategoryDialogFragment = BaseDialogFragment.newInstance(ChooseCategoryDialog.class);
-        chooseCategoryDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(((ChooseCategoryDialog)dialog).isComplete) {
-                    String currentCategoryName = ((ChooseCategoryDialog)dialog).user_CATEGORY;
-                    Category.makeCurrentCategory(currentCategoryName);
-
-                    updateLayout();
-                }
-            }
-        });
-        chooseCategoryDialogFragment.restoreListeners(this, "category");
-
-        AppCompatImageButton categoryButton = findViewById(R.id.main_categoryButton);
-        categoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isRemoveMode = false;
-
-                chooseCategoryDialogFragment.show(MainActivity.this, "category");
-
-                updateLayout();
-            }
-        });
 
         BaseDialogFragment addItemDialogFragment = BaseDialogFragment.newInstance(AddItemDialog.class);
         addItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -80,6 +59,7 @@ public class MainActivity extends BaseActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEditMode = false;
                 isRemoveMode = false;
 
                 addItemDialogFragment.show(MainActivity.this, "add");
@@ -92,7 +72,46 @@ public class MainActivity extends BaseActivity {
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEditMode = false;
                 isRemoveMode = !isRemoveMode;
+
+                updateLayout();
+            }
+        });
+
+        AppCompatImageButton editButton = findViewById(R.id.main_editButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isEditMode = !isEditMode;
+                isRemoveMode = false;
+
+                updateLayout();
+            }
+        });
+
+        BaseDialogFragment chooseCategoryDialogFragment = BaseDialogFragment.newInstance(ChooseCategoryDialog.class);
+        chooseCategoryDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((ChooseCategoryDialog)dialog).isComplete) {
+                    String currentCategoryName = ((ChooseCategoryDialog)dialog).user_CATEGORY;
+                    Category.makeCurrentCategory(currentCategoryName);
+
+                    updateLayout();
+                }
+            }
+        });
+        chooseCategoryDialogFragment.restoreListeners(this, "category");
+
+        AppCompatImageButton categoryButton = findViewById(R.id.main_categoryButton);
+        categoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isEditMode = false;
+                isRemoveMode = false;
+
+                chooseCategoryDialogFragment.show(MainActivity.this, "category");
 
                 updateLayout();
             }
@@ -116,6 +135,14 @@ public class MainActivity extends BaseActivity {
         needText.setText("Need (" + Category.currentCategory.numNeed() + ")");
         haveText.setText("Have (" + Category.currentCategory.numHave() + ")");
 
+        AppCompatImageButton editButton = findViewById(R.id.main_editButton);
+        if(isEditMode) {
+            editButton.setColorFilter(Color.RED);
+        }
+        else {
+            editButton.clearColorFilter();
+        }
+
         AppCompatImageButton removeButton = findViewById(R.id.main_removeButton);
         if(isRemoveMode) {
             removeButton.setColorFilter(Color.RED);
@@ -123,6 +150,32 @@ public class MainActivity extends BaseActivity {
         else {
             removeButton.clearColorFilter();
         }
+
+        BaseDialogFragment confirmDeleteItemDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteItemDialog.class, "");
+        confirmDeleteItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((ConfirmDeleteItemDialog)dialog).isComplete) {
+                    Category.currentCategory.removeItem(currentDeleteItemName);
+                    updateLayout();
+                }
+            }
+        });
+        confirmDeleteItemDialogFragment.restoreListeners(this, "delete");
+
+        BaseDialogFragment renameItemDialogFragment = BaseDialogFragment.newInstance(RenameItemDialog.class, "");
+        renameItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(((RenameItemDialog)dialog).isComplete) {
+                    String newName = ((RenameItemDialog)dialog).user_NEWNAME;
+                    Category.currentCategory.renameItem(currentRenameItemName, newName);
+
+                    updateLayout();
+                }
+            }
+        });
+        renameItemDialogFragment.restoreListeners(this, "rename");
 
         FlexboxLayout flexboxLayoutNeed = findViewById(R.id.main_needFlexboxLayout);
         FlexboxLayout flexboxLayoutHave = findViewById(R.id.main_haveFlexboxLayout);
@@ -137,13 +190,22 @@ public class MainActivity extends BaseActivity {
             B_ITEM.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(isRemoveMode) {
-                        isRemoveMode = false;
-                        Category.currentCategory.removeItem(item.itemName);
+                    if(isEditMode) {
+                        currentRenameItemName = item.itemName;
+                        renameItemDialogFragment.updateArguments(RenameItemDialog.class, item.itemName);
+                        renameItemDialogFragment.show(MainActivity.this, "rename");
+                    }
+                    else if(isRemoveMode) {
+                        currentDeleteItemName = item.itemName;
+                        confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, item.itemName);
+                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete");
                     }
                     else {
                         Category.currentCategory.toggleItem(item.itemName);
                     }
+
+                    isEditMode = false;
+                    isRemoveMode = false;
 
                     updateLayout();
                 }
@@ -161,12 +223,18 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
+        bundle.putString("currentDeleteCategoryName", currentDeleteItemName);
+        bundle.putString("currentRenameCategoryName", currentRenameItemName);
+        bundle.putBoolean("isEditMode", isEditMode);
         bundle.putBoolean("isRemoveMode", isRemoveMode);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle bundle) {
         if(bundle != null) {
+            currentDeleteItemName = bundle.getString("currentDeleteCategoryName");
+            currentRenameItemName = bundle.getString("currentRenameCategoryName");
+            isEditMode = bundle.getBoolean("isEditMode");
             isRemoveMode = bundle.getBoolean("isRemoveMode");
             updateLayout();
         }
