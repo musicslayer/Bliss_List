@@ -14,6 +14,7 @@ public class Category implements DataBridge.SerializableToJSON {
     public static Category favoriteCategory;
 
     public String categoryName;
+    public String style;
     public HashMap<String, Item> map_items = new HashMap<>();
 
     @Override
@@ -21,6 +22,7 @@ public class Category implements DataBridge.SerializableToJSON {
         o.beginObject()
                 .serialize("!V!", "1", String.class)
                 .serialize("categoryName", categoryName, String.class)
+                .serialize("style", style, String.class)
                 .serializeHashMap("map_items", map_items, String.class, Item.class)
                 .endObject();
     }
@@ -33,10 +35,12 @@ public class Category implements DataBridge.SerializableToJSON {
 
         if("1".equals(version)) {
             String categoryName = o.deserialize("categoryName", String.class);
+            String style = o.deserialize("style", String.class);
             HashMap<String, Item> map_items = o.deserializeHashMap("map_items", String.class, Item.class);
             o.endObject();
 
             category.categoryName = categoryName;
+            category.style = style;
             category.map_items = map_items;
         }
         else {
@@ -53,7 +57,7 @@ public class Category implements DataBridge.SerializableToJSON {
 
     public static void createDefaultIfNeeded() {
         if(map_categories.isEmpty()) {
-            addCategoryNoSave("Default");
+            addCategoryNoSave("Default", "list");
             makeFavoriteCategory("Default");
         }
     }
@@ -78,14 +82,15 @@ public class Category implements DataBridge.SerializableToJSON {
         return map_categories.size();
     }
 
-    public static void addCategoryNoSave(String categoryName) {
+    public static void addCategoryNoSave(String categoryName, String style) {
         Category category = new Category();
         category.categoryName = categoryName;
+        category.style = style;
         HashMapUtil.putValueInMap(map_categories, categoryName, category);
     }
 
-    public static void addCategory(String categoryName) {
-        addCategoryNoSave(categoryName);
+    public static void addCategory(String categoryName, String style) {
+        addCategoryNoSave(categoryName, style);
 
         new CategoryList().saveAllData();
     }

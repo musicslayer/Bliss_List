@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.musicslayer.blisslist.R;
 import com.musicslayer.blisslist.item.Category;
@@ -11,7 +13,10 @@ import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
 public class CreateCategoryDialog extends BaseDialog {
+    int LAST_CHECK = 0;
+
     public String user_NAME;
+    public String user_STYLE;
 
     public CreateCategoryDialog(Activity activity) {
         super(activity);
@@ -23,6 +28,26 @@ public class CreateCategoryDialog extends BaseDialog {
 
     public void createLayout(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_create_category);
+
+        RadioGroup radioGroup = findViewById(R.id.create_category_dialog_radioGroup);
+        RadioButton[] rb = new RadioButton[3];
+
+        rb[0] = findViewById(R.id.create_category_dialog_hardcodedRadioButton);
+        rb[0].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LAST_CHECK = 0;
+            }
+        });
+
+        rb[1] = findViewById(R.id.create_category_dialog_foundRadioButton);
+        rb[1].setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LAST_CHECK = 1;
+            }
+        });
+
+        radioGroup.check(rb[LAST_CHECK].getId());
+        rb[LAST_CHECK].callOnClick();
 
         final PlainTextEditText E = findViewById(R.id.create_category_dialog_editText);
 
@@ -41,11 +66,33 @@ public class CreateCategoryDialog extends BaseDialog {
                         ToastUtil.showToast("category_name_used");
                     }
                     else {
+                        if(LAST_CHECK == 0) {
+                            user_STYLE = "list";
+                        }
+                        else if(LAST_CHECK == 1) {
+                            user_STYLE = "todo";
+                        }
+
                         isComplete = true;
                         dismiss();
                     }
                 }
             }
         });
+    }
+
+    @Override
+    public Bundle onSaveInstanceState() {
+        Bundle bundle = super.onSaveInstanceState();
+        bundle.putInt("LAST_CHECK", LAST_CHECK);
+        return bundle;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle) {
+        if(bundle != null) {
+            LAST_CHECK = bundle.getInt("LAST_CHECK");
+        }
+        super.onRestoreInstanceState(bundle);
     }
 }

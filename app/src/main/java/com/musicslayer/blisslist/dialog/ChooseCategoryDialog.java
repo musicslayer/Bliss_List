@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -45,7 +46,9 @@ public class ChooseCategoryDialog extends BaseDialog {
             public void onDismiss(DialogInterface dialog) {
                 if(((CreateCategoryDialog)dialog).isComplete) {
                     String name = ((CreateCategoryDialog)dialog).user_NAME;
-                    Category.addCategory(name);
+                    String style = ((CreateCategoryDialog)dialog).user_STYLE;
+
+                    Category.addCategory(name, style);
 
                     updateLayout();
                 }
@@ -172,10 +175,15 @@ public class ChooseCategoryDialog extends BaseDialog {
                 B.setText("(" + numNeed + ") " + categoryName);
             }
             else {
-                B.setText("✓ " + categoryName);
+                B.setText(Html.fromHtml("<font color=#00ff00>✓</font> " + categoryName));
+            }
+            if("list".equals(category.style)) {
+                B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_list_24, 0, 0, 0);
+            }
+            else {
+                B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_checklist_24, 0, 0, 0);
             }
             B.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
-            B.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_category_24, 0, 0, 0);
             B.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

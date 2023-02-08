@@ -17,13 +17,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Create Category" />
 
+    <RadioGroup
+        android:id="@+id/create_category_dialog_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_category_dialog_toolbar">
+
+        <RadioButton
+            android:id="@+id/create_category_dialog_hardcodedRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="List" />
+
+        <RadioButton
+            android:id="@+id/create_category_dialog_foundRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="To-Do" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/create_category_dialog_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Category Name Below"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_category_dialog_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/create_category_dialog_radioGroup" />
 
     <com.musicslayer.blisslist.view.red.PlainTextEditText
         android:id="@+id/create_category_dialog_editText"
