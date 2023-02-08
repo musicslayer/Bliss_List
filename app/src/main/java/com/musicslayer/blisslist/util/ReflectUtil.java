@@ -27,18 +27,6 @@ public class ReflectUtil {
         }
     }
 
-    public static <T> T constructClassInstanceFromName(String className) {
-        // Assume no-arg constructor exists.
-        try {
-            Class<T> clazz = (Class<T>)Class.forName(className);
-            return clazz.getConstructor().newInstance();
-        }
-        catch(Exception e) {
-            ThrowableUtil.processThrowable(e);
-            throw new IllegalStateException(e);
-        }
-    }
-
     public static <T> T constructDialogInstance(Class<T> clazz, Activity activity, Object... args) {
         try {
             Object[] argArray = new Object[args.length + 1];

@@ -131,32 +131,30 @@ public class MainActivity extends BaseActivity {
         flexboxLayoutNeed.removeAllViews();
         flexboxLayoutHave.removeAllViews();
 
-        if(Category.getItem(Category.currentCategoryName) != null) {
-            for(String itemName : Category.getItem(Category.currentCategoryName).itemNames) {
-                AppCompatButton B_ITEM = new AppCompatButton(this);
-                B_ITEM.setText(itemName);
-                B_ITEM.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(isRemove) {
-                            isRemove = false;
-                            Category.getItem(Category.currentCategoryName).removeItem(itemName);
-                        }
-                        else {
-                            boolean isHave = Category.getItem(Category.currentCategoryName).isHave(itemName);
-                            Category.getItem(Category.currentCategoryName).updateItem(itemName, !isHave);
-                        }
-
-                        updateLayout();
+        for(String itemName : Category.getItem(Category.currentCategoryName).itemNames) {
+            AppCompatButton B_ITEM = new AppCompatButton(this);
+            B_ITEM.setText(itemName);
+            B_ITEM.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(isRemove) {
+                        isRemove = false;
+                        Category.getItem(Category.currentCategoryName).removeItem(itemName);
                     }
-                });
+                    else {
+                        boolean isHave = Category.getItem(Category.currentCategoryName).isHave(itemName);
+                        Category.getItem(Category.currentCategoryName).updateItem(itemName, !isHave);
+                    }
 
-                if(Category.getItem(Category.currentCategoryName).isHave(itemName)) {
-                    flexboxLayoutHave.addView(B_ITEM);
+                    updateLayout();
                 }
-                else {
-                    flexboxLayoutNeed.addView(B_ITEM);
-                }
+            });
+
+            if(Category.getItem(Category.currentCategoryName).isHave(itemName)) {
+                flexboxLayoutHave.addView(B_ITEM);
+            }
+            else {
+                flexboxLayoutNeed.addView(B_ITEM);
             }
         }
     }

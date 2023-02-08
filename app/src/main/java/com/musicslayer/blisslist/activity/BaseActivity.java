@@ -18,10 +18,6 @@ abstract public class BaseActivity extends AppCompatActivity {
     // An optional method that updates the activity's layout. This can be called by dialogs started from the activity.
     public void updateLayout() {}
 
-    public static BaseActivity getCurrentActivity() {
-        return activity;
-    }
-
     public static void setCurrentActivity(BaseActivity activity) {
         BaseActivity.activity = activity;
     }

@@ -14,8 +14,6 @@ import androidx.fragment.app.FragmentManager;
 import com.musicslayer.blisslist.util.ContextUtil;
 import com.musicslayer.blisslist.util.ReflectUtil;
 
-import java.util.ArrayList;
-
 public class BaseDialogFragment extends DialogFragment implements DialogInterface.OnShowListener {
     public DialogInterface.OnShowListener SL;
     public DialogInterface.OnDismissListener DL;
@@ -98,31 +96,11 @@ public class BaseDialogFragment extends DialogFragment implements DialogInterfac
         this.setArguments(bundle);
     }
 
-    public static boolean isNotShowing(Context context, String tag) {
-        return getFragmentByTag(context, tag) == null;
-    }
-
     public static FragmentManager getFragmentManager(Context context) {
         return ((AppCompatActivity)ContextUtil.getActivityFromContext(context)).getSupportFragmentManager();
     }
 
     public static Fragment getFragmentByTag(Context context, String tag) {
         return getFragmentManager(context).findFragmentByTag(tag);
-    }
-
-    public static ArrayList<Dialog> getAllDialogs(Context context) {
-        // Returns a list of all the dialogs currently on the stack.
-        ArrayList<Dialog> dialogArrayList = new ArrayList<>();
-
-        for(Fragment fragment : getFragmentManager(context).getFragments()) {
-            if(fragment instanceof DialogFragment) {
-                Dialog dialog = ((DialogFragment) fragment).getDialog();
-                if(dialog != null) {
-                    dialogArrayList.add(dialog);
-                }
-            }
-        }
-
-        return dialogArrayList;
     }
 }
