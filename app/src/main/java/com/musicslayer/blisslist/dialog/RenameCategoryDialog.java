@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.musicslayer.blisslist.R;
+import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
@@ -43,8 +44,16 @@ public class RenameCategoryDialog extends BaseDialog {
                 else {
                     user_NEWNAME = E.getTextString();
 
-                    isComplete = true;
-                    dismiss();
+                    if(oldName.equals(user_NEWNAME)) {
+                        ToastUtil.showToast("category_name_cannot_be_same");
+                    }
+                    else if(Category.isCategorySaved(user_NEWNAME)) {
+                        ToastUtil.showToast("category_name_used");
+                    }
+                    else {
+                        isComplete = true;
+                        dismiss();
+                    }
                 }
             }
         });

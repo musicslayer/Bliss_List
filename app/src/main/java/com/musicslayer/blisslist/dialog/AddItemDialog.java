@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.musicslayer.blisslist.R;
+import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
@@ -36,8 +37,13 @@ public class AddItemDialog extends BaseDialog {
                 else {
                     user_ITEMNAME = E.getTextString();
 
-                    isComplete = true;
-                    dismiss();
+                    if(Category.currentCategory.isItemSaved(user_ITEMNAME)) {
+                        ToastUtil.showToast("item_name_used");
+                    }
+                    else {
+                        isComplete = true;
+                        dismiss();
+                    }
                 }
             }
         });

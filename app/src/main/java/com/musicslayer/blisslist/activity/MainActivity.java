@@ -18,7 +18,6 @@ import com.musicslayer.blisslist.dialog.BaseDialogFragment;
 import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
 import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.item.Item;
-import com.musicslayer.blisslist.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -69,14 +68,9 @@ public class MainActivity extends BaseActivity {
             public void onDismiss(DialogInterface dialog) {
                 if(((AddItemDialog)dialog).isComplete) {
                     String itemName = ((AddItemDialog)dialog).user_ITEMNAME;
+                    Category.currentCategory.addItem(itemName, false);
 
-                    if(Category.currentCategory.isItemSaved(itemName)) {
-                        ToastUtil.showToast("item_name_used");
-                    }
-                    else {
-                        Category.currentCategory.addItem(itemName, false);
-                        updateLayout();
-                    }
+                    updateLayout();
                 }
             }
         });

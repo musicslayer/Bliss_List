@@ -45,14 +45,9 @@ public class ChooseCategoryDialog extends BaseDialog {
             public void onDismiss(DialogInterface dialog) {
                 if(((CreateCategoryDialog)dialog).isComplete) {
                     String name = ((CreateCategoryDialog)dialog).user_NAME;
+                    Category.addCategory(name);
 
-                    if(Category.isCategorySaved(name)) {
-                        ToastUtil.showToast("category_name_used");
-                    }
-                    else {
-                        Category.addCategory(name);
-                        updateLayout();
-                    }
+                    updateLayout();
                 }
             }
         });
@@ -134,19 +129,10 @@ public class ChooseCategoryDialog extends BaseDialog {
             public void onDismiss(DialogInterface dialog) {
                 if(((RenameCategoryDialog)dialog).isComplete) {
                     String newName = ((RenameCategoryDialog)dialog).user_NEWNAME;
+                    Category.renameCategory(currentRenameCategoryName, newName);
 
-                    if(newName.equals(currentRenameCategoryName)) {
-                        ToastUtil.showToast("category_name_cannot_be_same");
-                    }
-                    else if(Category.isCategorySaved(newName)) {
-                        ToastUtil.showToast("category_name_used");
-                    }
-                    else {
-                        Category.renameCategory(currentRenameCategoryName, newName);
-
-                        updateLayout();
-                        activity.updateLayout();
-                    }
+                    updateLayout();
+                    activity.updateLayout();
                 }
             }
         });
