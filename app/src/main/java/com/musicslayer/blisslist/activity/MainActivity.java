@@ -22,6 +22,8 @@ import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.item.Item;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends BaseActivity {
     String currentDeleteItemName;
@@ -183,26 +185,30 @@ public class MainActivity extends BaseActivity {
         flexboxLayoutNeed.removeAllViews();
         flexboxLayoutHave.removeAllViews();
 
-        ArrayList<Item> items = new ArrayList<>(Category.currentCategory.map_items.values());
-        for(Item item : items) {
+        ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
+        Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
+
+        for(String itemName : itemNames) {
+            Item item = Category.currentCategory.getItem(itemName);
+
             AppCompatButton B_ITEM = new AppCompatButton(this);
             B_ITEM.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_forward_24, 0, 0, 0);
-            B_ITEM.setText(item.itemName);
+            B_ITEM.setText(itemName);
             B_ITEM.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(isEditMode) {
-                        currentRenameItemName = item.itemName;
-                        renameItemDialogFragment.updateArguments(RenameItemDialog.class, item.itemName);
+                        currentRenameItemName = itemName;
+                        renameItemDialogFragment.updateArguments(RenameItemDialog.class, itemName);
                         renameItemDialogFragment.show(MainActivity.this, "rename");
                     }
                     else if(isRemoveMode) {
-                        currentDeleteItemName = item.itemName;
-                        confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, item.itemName);
+                        currentDeleteItemName = itemName;
+                        confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, itemName);
                         confirmDeleteItemDialogFragment.show(MainActivity.this, "delete");
                     }
                     else {
-                        Category.currentCategory.toggleItem(item.itemName);
+                        Category.currentCategory.toggleItem(itemName);
                     }
 
                     isEditMode = false;

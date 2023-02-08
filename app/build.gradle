@@ -42,23 +42,7 @@ android {
     }
 
     buildTypes {
-        // TEST
-
         debug {
-        }
-        release {
-            signingConfig signingConfigs.release
-            debuggable true
-        }
-
-
-
-
-/*
-        // REAL
-        debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled true
@@ -69,11 +53,6 @@ android {
                 debugSymbolLevel 'FULL'
             }
         }
-*/
-
-
-
-
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
