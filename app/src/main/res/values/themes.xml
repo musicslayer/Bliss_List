@@ -100,12 +100,6 @@
         <item name="materialButtonStyle">@style/MaterialButtonTheme</item>
     </style>
 
-    <style name="TextInverseTheme" parent="@style/Widget.AppCompat.TextView">
-        <item name="android:fontFamily">@string/font_family</item>
-        <item name="android:textSize">@dimen/font_size</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
     <style name="ToolbarTheme" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTheme.Title</item>
     </style>
