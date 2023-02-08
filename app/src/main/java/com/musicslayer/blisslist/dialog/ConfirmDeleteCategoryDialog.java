@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.musicslayer.blisslist.R;
 
 public class ConfirmDeleteCategoryDialog extends BaseDialog {
-    String name;
+    final String name;
 
     public ConfirmDeleteCategoryDialog(Activity activity, String name) {
         super(activity);

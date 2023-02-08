@@ -14,7 +14,7 @@ import com.musicslayer.blisslist.activity.BaseActivity;
 import com.musicslayer.blisslist.util.WindowUtil;
 
 abstract public class BaseDialog extends Dialog {
-    public BaseActivity activity;
+    final public BaseActivity activity;
 
     // Tells whether the user deliberately completed this instance.
     public boolean isComplete = false;

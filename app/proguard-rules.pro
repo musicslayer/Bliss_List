@@ -10,3 +10,8 @@
 -keepclassmembers class * extends com.musicslayer.blisslist.dialog.BaseDialog {
     public <init>(...);
 }
+
+# Serialization
+-keepclassmembers class * {
+    public static *** deserializeFromJSON(...);
+}

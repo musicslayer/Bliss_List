@@ -11,7 +11,7 @@ import com.musicslayer.blisslist.util.ToastUtil;
 import com.musicslayer.blisslist.view.red.PlainTextEditText;
 
 public class RenameCategoryDialog extends BaseDialog {
-    String oldName;
+    final String oldName;
 
     public String user_NEWNAME;
 
