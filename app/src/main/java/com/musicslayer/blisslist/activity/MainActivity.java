@@ -127,6 +127,9 @@ public class MainActivity extends BaseActivity {
         themeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEditMode = false;
+                isRemoveMode = false;
+
                 Theme.cycleTheme();
                 recreate();
 
