@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        chooseCategoryDialogFragment.restoreListeners(this, "category");
+        chooseCategoryDialogFragment.restoreListeners(this, "choose_category");
 
         AppCompatImageButton categoryButton = findViewById(R.id.main_categoryButton);
         categoryButton.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity {
                 isEditMode = false;
                 isRemoveMode = false;
 
-                chooseCategoryDialogFragment.show(MainActivity.this, "category");
+                chooseCategoryDialogFragment.show(MainActivity.this, "choose_category");
 
                 updateLayout();
             }
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        confirmDeleteItemDialogFragment.restoreListeners(this, "delete");
+        confirmDeleteItemDialogFragment.restoreListeners(this, "delete_item");
 
         BaseDialogFragment renameItemDialogFragment = BaseDialogFragment.newInstance(RenameItemDialog.class, "");
         renameItemDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
-        renameItemDialogFragment.restoreListeners(this, "rename");
+        renameItemDialogFragment.restoreListeners(this, "rename_item");
 
         if("list".equals(Category.currentCategory.style)) {
             updateLayoutList(confirmDeleteItemDialogFragment, renameItemDialogFragment);
@@ -224,12 +224,12 @@ public class MainActivity extends BaseActivity {
                     if(isEditMode) {
                         currentRenameItemName = itemName;
                         renameItemDialogFragment.updateArguments(RenameItemDialog.class, itemName);
-                        renameItemDialogFragment.show(MainActivity.this, "rename");
+                        renameItemDialogFragment.show(MainActivity.this, "rename_item");
                     }
                     else if(isRemoveMode) {
                         currentDeleteItemName = itemName;
                         confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, itemName);
-                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete");
+                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_item");
                     }
                     else {
                         Category.currentCategory.toggleItem(itemName);
@@ -287,12 +287,12 @@ public class MainActivity extends BaseActivity {
                     if(isEditMode) {
                         currentRenameItemName = itemName;
                         renameItemDialogFragment.updateArguments(RenameItemDialog.class, itemName);
-                        renameItemDialogFragment.show(MainActivity.this, "rename");
+                        renameItemDialogFragment.show(MainActivity.this, "rename_item");
                     }
                     else if(isRemoveMode) {
                         currentDeleteItemName = itemName;
                         confirmDeleteItemDialogFragment.updateArguments(ConfirmDeleteItemDialog.class, itemName);
-                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete");
+                        confirmDeleteItemDialogFragment.show(MainActivity.this, "delete_item");
                     }
                     else {
                         Category.currentCategory.toggleItem(itemName);

@@ -54,7 +54,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                 }
             }
         });
-        createCategoryDialogFragment.restoreListeners(activity, "create");
+        createCategoryDialogFragment.restoreListeners(activity, "create_category");
 
         AppCompatImageButton B_ADD = findViewById(R.id.choose_category_dialog_addButton);
         B_ADD.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +65,7 @@ public class ChooseCategoryDialog extends BaseDialog {
 
                 updateLayout();
 
-                createCategoryDialogFragment.show(activity, "create");
+                createCategoryDialogFragment.show(activity, "create_category");
             }
         });
 
@@ -124,7 +124,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                 }
             }
         });
-        confirmDeleteCategoryDialogFragment.restoreListeners(activity, "delete");
+        confirmDeleteCategoryDialogFragment.restoreListeners(activity, "delete_category");
 
         BaseDialogFragment renameCategoryDialogFragment = BaseDialogFragment.newInstance(RenameCategoryDialog.class, "");
         renameCategoryDialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -139,7 +139,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                 }
             }
         });
-        renameCategoryDialogFragment.restoreListeners(activity, "rename");
+        renameCategoryDialogFragment.restoreListeners(activity, "rename_category");
 
         ArrayList<String> categoryNames = new ArrayList<>(Category.map_categories.keySet());
         Collections.sort(categoryNames, Comparator.comparing(String::toLowerCase));
@@ -190,7 +190,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                     if(isEditMode) {
                         currentRenameCategoryName = categoryName;
                         renameCategoryDialogFragment.updateArguments(RenameCategoryDialog.class, categoryName);
-                        renameCategoryDialogFragment.show(activity, "rename");
+                        renameCategoryDialogFragment.show(activity, "rename_category");
                     }
                     else if(isRemoveMode) {
                         if(Category.numCategories() == 1) {
@@ -205,7 +205,7 @@ public class ChooseCategoryDialog extends BaseDialog {
                         else {
                             currentDeleteCategoryName = categoryName;
                             confirmDeleteCategoryDialogFragment.updateArguments(ConfirmDeleteCategoryDialog.class, categoryName);
-                            confirmDeleteCategoryDialogFragment.show(activity, "delete");
+                            confirmDeleteCategoryDialogFragment.show(activity, "delete_category");
                         }
                     }
                     else {
