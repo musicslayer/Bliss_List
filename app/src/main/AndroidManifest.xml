@@ -14,7 +14,6 @@
         android:fullBackupContent="false"
         android:hasFragileUserData="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        tools:replace="android:allowBackup"
         tools:targetApi="s">
 
         <activity android:name=".activity.InitialActivity" android:screenOrientation="locked" android:exported="true">

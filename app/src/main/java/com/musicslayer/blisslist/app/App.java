@@ -1,13 +1,13 @@
 package com.musicslayer.blisslist.app;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDexApplication;
 
 import com.musicslayer.blisslist.util.ThrowableUtil;
 
-public class App extends MultiDexApplication {
+public class App extends Application {
     public static boolean isAppInitialized = false;
 
     // Store these for use later when the context may not be available.

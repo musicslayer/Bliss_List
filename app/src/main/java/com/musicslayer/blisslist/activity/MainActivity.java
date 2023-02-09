@@ -210,7 +210,12 @@ public class MainActivity extends BaseActivity {
         haveFlexboxLayout.removeAllViews();
 
         ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
-        Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
+        Collections.sort(itemNames, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.toLowerCase().compareTo(s2.toLowerCase());
+            }
+        });
 
         for(String itemName : itemNames) {
             Item item = Category.currentCategory.getItem(itemName);
@@ -273,7 +278,12 @@ public class MainActivity extends BaseActivity {
         todoLinearLayout.removeAllViews();
 
         ArrayList<String> itemNames = new ArrayList<>(Category.currentCategory.map_items.keySet());
-        Collections.sort(itemNames, Comparator.comparing(String::toLowerCase));
+        Collections.sort(itemNames, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.toLowerCase().compareTo(s2.toLowerCase());
+            }
+        });
 
         for(String itemName : itemNames) {
             Item item = Category.currentCategory.getItem(itemName);

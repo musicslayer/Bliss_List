@@ -142,7 +142,12 @@ public class ChooseCategoryDialog extends BaseDialog {
         renameCategoryDialogFragment.restoreListeners(activity, "rename_category");
 
         ArrayList<String> categoryNames = new ArrayList<>(Category.map_categories.keySet());
-        Collections.sort(categoryNames, Comparator.comparing(String::toLowerCase));
+        Collections.sort(categoryNames, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.toLowerCase().compareTo(s2.toLowerCase());
+            }
+        });
 
         for(String categoryName : categoryNames) {
             Category category = Category.getCategory(categoryName);

@@ -36,8 +36,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -55,7 +53,6 @@ android {
         }
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -70,17 +67,8 @@ android {
 }
 
 dependencies {
-    //noinspection GradleDependency
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5' // Keep this at 1.1.5 until we can update the Gradle Plugin.
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
-    //noinspection GradleDependency
-    implementation 'commons-io:commons-io:2.4' // Keep this at 2.4 so we can support older android versions.
-    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    implementation 'com.google.android.material:material:1.8.0'
     runtimeOnly 'github.ryuunoakaihitomi.retoast:retoast:1.7.0'
 }
