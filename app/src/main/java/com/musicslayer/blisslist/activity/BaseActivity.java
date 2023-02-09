@@ -1,13 +1,12 @@
 package com.musicslayer.blisslist.activity;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.musicslayer.blisslist.app.App;
+import com.musicslayer.blisslist.util.AppearanceUtil;
 
 abstract public class BaseActivity extends AppCompatActivity {
     // Needed when the current activity is different than the activity captured in a closure.
@@ -50,14 +49,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         }
 
         setCurrentActivity(this);
-
-        if(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM != AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        }
-
-        if(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED != activity.getResources().getConfiguration().orientation) {
-            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        }
+        AppearanceUtil.setAppearance(this);
 
         createLayout(savedInstanceState);
     }

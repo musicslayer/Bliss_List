@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.flexbox.FlexboxLayout;
 import com.musicslayer.blisslist.R;
+import com.musicslayer.blisslist.data.persistent.app.Theme;
 import com.musicslayer.blisslist.dialog.AddItemDialog;
 import com.musicslayer.blisslist.dialog.BaseDialogFragment;
 import com.musicslayer.blisslist.dialog.ChooseCategoryDialog;
@@ -122,6 +123,17 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
+        themeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Theme.cycleTheme();
+                recreate();
+
+                updateLayout();
+            }
+        });
+
         updateLayout();
     }
 
@@ -148,6 +160,17 @@ public class MainActivity extends BaseActivity {
         }
         else {
             removeButton.clearColorFilter();
+        }
+
+        AppCompatImageButton themeButton = findViewById(R.id.main_themeButton);
+        if("auto".equals(Theme.theme_setting)) {
+            themeButton.setImageResource(R.drawable.baseline_auto_mode_24);
+        }
+        else if("light".equals(Theme.theme_setting)) {
+            themeButton.setImageResource(R.drawable.baseline_light_mode_24);
+        }
+        else {
+            themeButton.setImageResource(R.drawable.baseline_dark_mode_24);
         }
 
         BaseDialogFragment confirmDeleteItemDialogFragment = BaseDialogFragment.newInstance(ConfirmDeleteItemDialog.class, "");

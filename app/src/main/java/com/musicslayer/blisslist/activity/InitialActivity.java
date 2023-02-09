@@ -5,10 +5,9 @@ import android.os.Bundle;
 
 import com.musicslayer.blisslist.app.App;
 import com.musicslayer.blisslist.data.persistent.app.CategoryList;
+import com.musicslayer.blisslist.data.persistent.app.Theme;
 import com.musicslayer.blisslist.item.Category;
 import com.musicslayer.blisslist.util.ToastUtil;
-
-// TODO Easy light/night switcher
 
 // This Activity class only exists for initialization code, not to be seen by the user.
 public class InitialActivity extends BaseActivity {
@@ -25,6 +24,7 @@ public class InitialActivity extends BaseActivity {
 
         // Load all the stored data into local memory.
         new CategoryList().loadAllData();
+        new Theme().loadAllData();
 
         // If there are no categories, create a default one so the user can get started easily.
         Category.createDefaultIfNeeded();
